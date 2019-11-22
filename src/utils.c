@@ -1,12 +1,19 @@
-#include <stdio.h>
+/*******************************************************/
+/*Fichier contenants des fonctions d'utilité (convertion, calcul de taille,....)*/
+/******************************************************/
+
 #include <stdlib.h>
-#include <string.h>
+#include "utils.h"
 
-/*
-	Ici sera réalisé le programme qui, en recevant une instruction, traite l'information pour pouvoir effectuer les autres opérations ensuite
-	Par exemple, convertir l'instruction en hexadécimal et l'afficher, ce qui est le premier objectif donné
-*/
+//Fonction qui calcule la taille du code opération
+int getOperationSize(char *s){
+	
+	int size = 0;
+	while(s[size] != ' ')
+		size++;
 
+	return size;
+}
 
 void printer(char instruction[])
 {
@@ -36,14 +43,4 @@ void printer(char instruction[])
 		if(instruction[0]=='A' && instruction[1]=='D' && instruction[2]=='D' && instruction[3]=='I') printf("%x",0x200);
 	}
 	else printf("\nL'instruction donnée n'est pas conforme au langage MIPS.\n");
-}
-
-
-int main(void)
-{
-	printf("\n Affichage : \n");
-	printer("ADDI $2,$2,3");
-
-	printf("\n\n");
-	return 0;
 }
