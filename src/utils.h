@@ -2,7 +2,10 @@
 #define UTILS_H
 
 int getOperationSize(char *s);
-void convertToBinarySized(const char *s, char *dest,int size);
-char *convertInstructionToBinary(char *s, int isSpecial,int instructionCode);
+void convertToBinarySized(int toConvert, char *dest,int size);
+int getOperandeWithPosition(char *s,int index);
+
+int charToInt(char c);
+void appendStr(char *src,char *dest);
 
 #endif

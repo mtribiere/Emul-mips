@@ -16,10 +16,7 @@ int getOperationSize(char *s){
 }
 
 //Fonction qui converti un nombre en binaire
-void convertToBinarySized(const char *s, char *dest,int size){
-	
-	//Convertir en int le nombre
-	int toConvert = atoi(s);
+void convertToBinarySized(int toConvert, char *dest,int size){
 
 	//Initialiser le tableau de retour
     int converted[size]; 
@@ -35,27 +32,117 @@ void convertToBinarySized(const char *s, char *dest,int size){
         i++; 
 	} 
 
-	/*
-	//DEBUG
-	for(int j = 0;j<size;j++)
-		printf(" %d ",converted[j]);
 
-	printf("\n");
-	*/
 
 	//Renverser la chaine
 	for(int j = 0;j<size;j++){
 		dest[j] = (converted[size-j-1])+48;  //Convertion en char
-		//printf(" %d ",dest[j]);
 	}
 	
 }
 
-//Fonction qui converti une instruction en binaire
-char *convertInstructionToBinary(char *s, int isSpecial,int instructionCode){
+//Obtenir un operande avec une position
+int getOperandeWithPosition(char *s,int index){
 
-	//Convertir le code opération en binaire
+	int toReturn = 0;
+	int currentOperandIndex = 0;
+
+	int charIndex = 0;
+	int beginIndex = 0;
+	int endIndex = 0;
+
+	//Tant qu'on atteint pas la fin de la chaine ou qu'on a pas trouvé l'index
+	while(currentOperandIndex != index && s[charIndex] != '\0'){
+		//Si on trouve un espace ou une virgule
+		if(s[charIndex] == ' ' || s[charIndex] == ',')
+			//Passer à l'operande suivant
+			currentOperandIndex++;
+		charIndex++;
+	}
+
+	//Tant qu'on ne trouve pas la postion du deuxième espace ou qu'on atteint la fin de la chaine
+	if(s[beginIndex] == '$'){
+		beginIndex = charIndex+1;
+	}else{
+		beginIndex = charIndex;
+	}
+
+	while(s[charIndex] != ' ' && s[charIndex] != ',' && s[charIndex] != '\0')
+		charIndex++;
+
+	//Convertir en int
+	endIndex = charIndex-1;
+	for(int i = beginIndex;i <= endIndex;i++){
+		toReturn  = toReturn * 10 + charToInt(s[i]);
+	}
+
+	return toReturn;
+
+}
+
+int charToInt(char c){
 	
+	int toReturn = -1;
+	
+	switch (c)
+	{
+		case '1':
+			toReturn = 1;	
+			break;
+
+		case '2':
+			toReturn = 2;	
+			break;
+
+		case '3':
+			toReturn = 3;	
+			break;
+
+		case '4':
+			toReturn = 4;	
+			break;
+
+		case '5':
+			toReturn = 5;	
+			break;
+
+		case '6':
+			toReturn = 6;	
+			break;
+
+		case '7':
+			toReturn = 7;	
+			break;
+
+		case '8':
+			toReturn = 8;	
+			break;
+
+		case '9':
+			toReturn = 9;	
+			break;
 
 
+		default:
+			toReturn = 0;
+			break;
+	}
+
+	return toReturn;
+}
+
+//Ajouter une chaine à la fin d'une autre
+void appendStr(char *src,char *dest){
+	
+	//Chercher la fin de la chaine de destination
+	int startIndex  = 0;
+	while(dest[startIndex] != '\0')
+		startIndex++;
+	
+	//Ajouter la chaine à la fin
+	int i = 0;
+	while(src[i] != '\0'){
+		dest[startIndex+i] = src[i];
+		i++;
+	}
 }
