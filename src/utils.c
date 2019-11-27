@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "utils.h"
 
-//Fonction qui calcule la taille du code opération
+/* Fonction qui calcule la taille du code opération */
 int getOperationSize(char *s){
 
 	int size = 0;
@@ -16,11 +16,8 @@ int getOperationSize(char *s){
 	return size;
 }
 
-/* A FAIRE EN GLOBAL : une fonction convertHexaToBinary 
-        Prend en paramètre un nombre hexadécimal sous la forme d'un tableau de max 
-        Renvoie un tableau de cinq caractères ex. [11111] pour 31
-*/
 
+/* Fonction qui calcule le nombre d'opérations dans un fichier */
 int getInstructionCount(char *nameFile)
 {
 	FILE *fileIn;
@@ -33,22 +30,20 @@ int getInstructionCount(char *nameFile)
 	else
 	{
 		charRead=fgetc(fileIn);
-		while(charRead!='\0' || charRead!='\\')
+		while(charRead != EOF)
 		{
-				if(charRead=='\n') nbLine++;
-				charRead=fgetc(fileIn);
-				printf(" nbLine : %d	charRead : %c char attendu : %c \n\n",nbLine,charRead,'\\');
-				if(charRead=='#')
-				{
-					printf("	Trop loin \n\n");
-					break;
-				}
+			printf("\nDébut de la boucle \n\n");
+			if(charRead=='\n') nbLine++;
+			charRead=fgetc(fileIn);
+			printf(" nbLine : %d	charRead : %c char attendu : %c \n\n",nbLine,charRead,'\\');
+			printf("\nFin de la boucle \n\n");
 		}
 	}
 
 	return nbLine;
 }
 
+/* Fonction qui lit l'instruction n°id dans le fichier fourni et la load dans instruction */
 void readInstructionInFile(char *nameFile, int id, char *instruction)
 {
 	FILE *fileIn;
@@ -66,15 +61,13 @@ void readInstructionInFile(char *nameFile, int id, char *instruction)
 	else
 	{
 		charRead=fgetc(fileIn);
-		printf("Entrée dans la boucle ok \n\n");
+		//printf("Entrée dans la boucle ok \n\n");
 		
-		while(charRead!='\0' && nbLine!=id)
+		while(charRead!=EOF && nbLine!=id)
 		{
 			if(charRead=='\n') nbLine++;
 			charRead=fgetc(fileIn);
-			printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
-
-
+			//printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
 		}
 
 		if(nbLine==id)
@@ -84,15 +77,55 @@ void readInstructionInFile(char *nameFile, int id, char *instruction)
 				instruction[indexInstruction]=charRead;
 				indexInstruction++;
 				charRead=fgetc(fileIn);
-				printf(" indexInstruction : %d	charRead : %c \n\n",nbLine,charRead);
+				//printf(" indexInstruction : %d	charRead : %c \n\n",nbLine,charRead);
 			}
 		}
 		
 	}
+	fclose(fileIn);
+}
+
+/* Fonction qui écrit l'instruction donnée dans le fichier fourni à la ligne n°id */
+/* ATTENTION : l'instruction doit se terminer par \0\n */
+void writeInstructionInFile(char *nameFile, int id, char *instruction)
+{
+	FILE *fileIn;
+	char charRead;
+
+	int nbLine=0;
+
+	fileIn=fopen(nameFile,"r+");
+	if(fileIn==NULL)
+	{
+		printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
+		instruction=NULL;
+	}
+	else
+	{
+		charRead=fgetc(fileIn);
+		printf("Entrée dans la boucle ok \n\n");
+
+		while(charRead!=EOF && nbLine!=id)
+		{
+			if(charRead=='\n') nbLine++;
+			if(nbLine!=id) charRead=fgetc(fileIn);
+			//printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
+		}
+
+		if(nbLine==id)
+		{
+			printf("Destination atteinte !! \n\n");
+			fputs(instruction,fileIn);
+		}
+	}
+	fclose(fileIn);
 }
 
 
-char *convertHexaToBinary(char *string)
+/* Prend en entrée une string source de longueur src_size de caractères hexa */
+/* Ecrit le résultat converti en binaire dans la string de destination */
+/*
+char *convertHexaToBinary(char *string, int src_size, char *stringDest)
 {
 	long int index=0;
 	char toReturn[9]={0,0,0,0,0,0,0,0,'\0'};
@@ -130,3 +163,4 @@ char *convertHexaToBinary(char *string)
 
 	return toReturn;
 }
+*/
