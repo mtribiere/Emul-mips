@@ -1,14 +1,39 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "Instruction/instructionConverter.h"
 #include "utils.h"
+
+
+//Convertir les instructions en hexa
+void instructionToHex(char *s,char *dest){
+
+	///////////////Obtenir le binaire de l'instruction
+	char instructionBinary[33]={0};
+	instructionBinary[32] = '\0';
+
+	
+	//Si l'instruction est de type I
+	if(strstr(s,"ADDI") != NULL){
+			instructionToBinary(s,1,0,instructionBinary);
+	}
+
+	//////////////Convertir en hexa
+	int destinationIndex = 0;
+	for(int i = 0;i<32;i+=4){
+		char temp = strToHex(instructionBinary+i);
+		dest[destinationIndex] = temp;
+		destinationIndex++;
+	}
+
+}
 
 //*******************//
 //* Champ type 0 : R 
 //*			   1 : I
 //*			   2 : J 
 //*******************//
-void operationToBinary(char *s,int type,int isSpecial,char *dest){
+void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 	
 	int operande1;
 	int operande2;
@@ -19,7 +44,7 @@ void operationToBinary(char *s,int type,int isSpecial,char *dest){
 	char *operande2Char = NULL;
 	char *destinationChar = NULL;
 
-	//////////////////////////////Si c'est une operation ADDI 
+	//////////////////////////////Si c'est une operation de type I et qu'elle est non special
 	if(type == 1 && !isSpecial){
 
 		//Creer les variables

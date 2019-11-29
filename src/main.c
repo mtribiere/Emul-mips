@@ -10,11 +10,12 @@ int main(void)
 	
 	printf("Taille code opération : %d\n\n",getOperationSize("ADDI $2,$8,3"));
 	
-	char instructionBinary[33]={0};
-	instructionBinary[32] = '\0';
-	operationToBinary("ADDI $8,$4,5",1,0,instructionBinary);
+	char instructionHex[9] = {0};
+	instructionHex[8] = '\0';
 
-	printf("Convertion en binaire : %s\n",instructionBinary);
+	instructionToHex("ADDI $2,$3,200",instructionHex);
+
+	printf("Convertion en hexa : %s\n",instructionHex);
 	
 	return 0;
 }

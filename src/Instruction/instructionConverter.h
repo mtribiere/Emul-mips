@@ -1,8 +1,8 @@
 #ifndef ARTHM_H
 #define ARTHM_H
-#include "instructionConverter.h"
 
-void operationToBinary(char *s,int type,int isSpecial,char *dest);
+void instructionToBinary(char *s,int type,int isSpecial,char *dest);
+void instructionToHex(char *s,char *dest);
 
 
 #endif

@@ -1,8 +1,8 @@
 /*******************************************************/
 /*Fichier contenants des fonctions d'utilité (convertion, calcul de taille,....)*/
 /******************************************************/
-
 #include <stdlib.h>
+#include <string.h>
 #include "utils.h"
 
 //Fonction qui calcule la taille du code opération
@@ -145,4 +145,51 @@ void appendStr(char *src,char *dest){
 		dest[startIndex+i] = src[i];
 		i++;
 	}
+}
+
+//Convertir 4 bits char en Hexa
+char strToHex(const char *src){
+
+	char toReturn;
+
+	//Copier les 4 premiers bits
+	char temp[4] = {0};
+	for(int i = 0;i<4;i++)
+		temp[i] = src[i];
+
+	//Trouver le caractère à retourner
+	if(strcmp(temp,"0000") == 0)
+		toReturn = '0';
+	else if (strcmp(temp,"0001") == 0)
+		toReturn = '1';
+	else if (strcmp(temp,"0010") == 0)
+		toReturn = '2';
+	else if (strcmp(temp,"0011") == 0)
+		toReturn = '3';	
+	else if (strcmp(temp,"0100") == 0)
+		toReturn = '4';
+	else if (strcmp(temp,"0101") == 0)
+		toReturn = '5';
+	else if (strcmp(temp,"0110") == 0)
+		toReturn = '6';
+	else if (strcmp(temp,"0111") == 0)
+		toReturn = '7';
+	else if (strcmp(temp,"1000") == 0)
+		toReturn = '8';
+	else if (strcmp(temp,"1001") == 0)
+		toReturn = '9';
+	else if (strcmp(temp,"1010") == 0)
+		toReturn = 'A';
+	else if (strcmp(temp,"1011") == 0)
+		toReturn = 'B';
+	else if (strcmp(temp,"1100") == 0)
+		toReturn = 'C';
+	else if (strcmp(temp,"1101") == 0)
+		toReturn = 'D';
+	else if (strcmp(temp,"1110") == 0)
+		toReturn = 'E';
+	else if (strcmp(temp,"1111") == 0)
+		toReturn = 'F';
+
+	return toReturn;
 }
