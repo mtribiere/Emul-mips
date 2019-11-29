@@ -1,9 +1,11 @@
-#ifndef UTILS_H 
-#define UTILS_H
+#ifndef FILEINSTRUCTIONS_H 
+#define FILEINSTRUCTION_H
 
 int getOperationSize(char *s);
 
 int getInstructionCount(char *string);
+
+void getOperationCode(char *instruction, char *opcode);
 
 void readInstructionInFile(char *nameFile, int id, char *instruction);
 

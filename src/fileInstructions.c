@@ -4,16 +4,49 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "utils.h"
+#include "fileInstructions.h"
 
-/* Fonction qui calcule la taille du code opération */
-int getOperationSize(char *s){
+/* Prend en paramètres une instruction TERMINEE PAR UN ' ' ex. "ADDI " */
+/* Charge l'opcode de cette instruction ex. 001000 dans le tableau opcode */
+void getOperationCode(char *instruction, char *opcode)
+{
+	int index;
 
-	int size = 0;
-	while(s[size] != ' ')
-		size++;
+	for(index=0;index<6;index++) opcode[index]=0;
 
-	return size;
+	if(instruction[0]=='J')
+	{
+		opcode[4]=1;
+		if(instruction[1]=='A' && instruction[2]=='L') opcode[5]=1;
+		/* Condition 1 fausse implique condition 2 non évaluée (ici problème ssi instruction[1]=' ')*/
+	}
+
+	if(instruction[0]=='B')
+	{
+		opcode[3]=1;
+		if(instruction[1]=='N'&& instruction[2]=='E') opcode[5]=1;
+		if(instruction[1]=='L' && instruction[2]=='E' && instruction[3]=='Z') opcode[4]=1;
+		if(instruction[1]=='G' && instruction[2]=='T' && instruction[3]=='Z')
+		{
+			opcode[4]=1;
+			opcode[5]=1;
+		}
+	}
+
+	if(instruction[0]=='A' && instruction[1]=='D' && instruction[2]=='D' && instruction[3]=='I') opcode[2]=1;
+
+	if((instruction[0]=='L' || instruction[0]=='S') && instruction[1]=='W')
+	{
+		opcode[0]=1;
+		opcode[2]=1;
+		opcode[4]=1;
+		opcode[5]=1;
+	}
+
+	if(instruction[0]=='L' && instruction[1]=='U' && instruction[2]=='I')
+	{
+		for(index=2;index<6;index++) opcode[index]=1;
+	}
 }
 
 
@@ -32,11 +65,11 @@ int getInstructionCount(char *nameFile)
 		charRead=fgetc(fileIn);
 		while(charRead != EOF)
 		{
-			printf("\nDébut de la boucle \n\n");
+			//printf("\nDébut de la boucle \n\n");
 			if(charRead=='\n') nbLine++;
 			charRead=fgetc(fileIn);
-			printf(" nbLine : %d	charRead : %c char attendu : %c \n\n",nbLine,charRead,'\\');
-			printf("\nFin de la boucle \n\n");
+			//printf(" nbLine : %d	charRead : %c char attendu : %c \n\n",nbLine,charRead,'\\');
+			//printf("\nFin de la boucle \n\n");
 		}
 	}
 
@@ -94,6 +127,7 @@ void writeInstructionInFile(char *nameFile, int id, char *instruction)
 
 	int nbLine=0;
 
+	/* Une ouverture de fichier en r+ paermet malgré tout d'écrire dedans!! */
 	fileIn=fopen(nameFile,"r+");
 	if(fileIn==NULL)
 	{
@@ -103,7 +137,7 @@ void writeInstructionInFile(char *nameFile, int id, char *instruction)
 	else
 	{
 		charRead=fgetc(fileIn);
-		printf("Entrée dans la boucle ok \n\n");
+		//printf("Entrée dans la boucle ok \n\n");
 
 		while(charRead!=EOF && nbLine!=id)
 		{
@@ -114,7 +148,7 @@ void writeInstructionInFile(char *nameFile, int id, char *instruction)
 
 		if(nbLine==id)
 		{
-			printf("Destination atteinte !! \n\n");
+			//printf("Destination atteinte !! \n\n");
 			fputs(instruction,fileIn);
 		}
 	}
