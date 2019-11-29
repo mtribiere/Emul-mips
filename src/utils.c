@@ -1,12 +1,11 @@
 /*******************************************************/
 /*Fichier contenants des fonctions d'utilité (convertion, calcul de taille,....)*/
 /******************************************************/
-
-#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "utils.h"
 
-/* Fonction qui calcule la taille du code opération */
+//Fonction qui calcule la taille du code opération
 int getOperationSize(char *s){
 
 	int size = 0;
@@ -16,151 +15,181 @@ int getOperationSize(char *s){
 	return size;
 }
 
+//Fonction qui converti un nombre en binaire
+void convertToBinarySized(int toConvert, char *dest,int size){
 
-/* Fonction qui calcule le nombre d'opérations dans un fichier */
-int getInstructionCount(char *nameFile)
-{
-	FILE *fileIn;
+	//Initialiser le tableau de retour
+    int converted[size]; 
+	for(int i = 0;i<size;i++)
+		converted[i] = 0 ;
 
-	int nbLine=0;
-	char charRead;
+	//Convertir en binaire
+    int i = 0; 
+    while (toConvert > 0) { 
+  
+        converted[i] = toConvert % 2; 
+        toConvert = toConvert / 2; 
+        i++; 
+	} 
 
-	fileIn=fopen(nameFile,"r");
-	if(fileIn==NULL) printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
-	else
-	{
-		charRead=fgetc(fileIn);
-		while(charRead != EOF)
-		{
-			printf("\nDébut de la boucle \n\n");
-			if(charRead=='\n') nbLine++;
-			charRead=fgetc(fileIn);
-			printf(" nbLine : %d	charRead : %c char attendu : %c \n\n",nbLine,charRead,'\\');
-			printf("\nFin de la boucle \n\n");
-		}
+
+
+	//Renverser la chaine
+	for(int j = 0;j<size;j++){
+		dest[j] = (converted[size-j-1])+48;  //Convertion en char
 	}
-
-	return nbLine;
+	
 }
 
-/* Fonction qui lit l'instruction n°id dans le fichier fourni et la load dans instruction */
-void readInstructionInFile(char *nameFile, int id, char *instruction)
-{
-	FILE *fileIn;
-	char charRead;
+//Obtenir un operande avec une position
+int getOperandeWithPosition(char *s,int index){
 
-	int nbLine=0;
-	int indexInstruction=0;
+	int toReturn = 0;
+	int currentOperandIndex = 0;
 
-	fileIn=fopen(nameFile,"r");
-	if(fileIn==NULL)
-	{
-		printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
-		instruction=NULL;
+	int charIndex = 0;
+	int beginIndex = 0;
+	int endIndex = 0;
+
+	//Tant qu'on atteint pas la fin de la chaine ou qu'on a pas trouvé l'index
+	while(currentOperandIndex != index && s[charIndex] != '\0'){
+		//Si on trouve un espace ou une virgule
+		if(s[charIndex] == ' ' || s[charIndex] == ',')
+			//Passer à l'operande suivant
+			currentOperandIndex++;
+		charIndex++;
 	}
-	else
-	{
-		charRead=fgetc(fileIn);
-		//printf("Entrée dans la boucle ok \n\n");
-		
-		while(charRead!=EOF && nbLine!=id)
-		{
-			if(charRead=='\n') nbLine++;
-			charRead=fgetc(fileIn);
-			//printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
-		}
 
-		if(nbLine==id)
-		{
-			while(charRead!='\n')
-			{
-				instruction[indexInstruction]=charRead;
-				indexInstruction++;
-				charRead=fgetc(fileIn);
-				//printf(" indexInstruction : %d	charRead : %c \n\n",nbLine,charRead);
-			}
-		}
-		
+	//Tant qu'on ne trouve pas la postion du deuxième espace ou qu'on atteint la fin de la chaine
+	if(s[beginIndex] == '$'){
+		beginIndex = charIndex+1;
+	}else{
+		beginIndex = charIndex;
 	}
-	fclose(fileIn);
+
+	while(s[charIndex] != ' ' && s[charIndex] != ',' && s[charIndex] != '\0')
+		charIndex++;
+
+	//Convertir en int
+	endIndex = charIndex-1;
+	for(int i = beginIndex;i <= endIndex;i++){
+		toReturn  = toReturn * 10 + charToInt(s[i]);
+	}
+
+	return toReturn;
+
 }
 
-/* Fonction qui écrit l'instruction donnée dans le fichier fourni à la ligne n°id */
-/* ATTENTION : l'instruction doit se terminer par \0\n */
-void writeInstructionInFile(char *nameFile, int id, char *instruction)
-{
-	FILE *fileIn;
-	char charRead;
-
-	int nbLine=0;
-
-	fileIn=fopen(nameFile,"r+");
-	if(fileIn==NULL)
+int charToInt(char c){
+	
+	int toReturn = -1;
+	
+	switch (c)
 	{
-		printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
-		instruction=NULL;
-	}
-	else
-	{
-		charRead=fgetc(fileIn);
-		printf("Entrée dans la boucle ok \n\n");
+		case '1':
+			toReturn = 1;	
+			break;
 
-		while(charRead!=EOF && nbLine!=id)
-		{
-			if(charRead=='\n') nbLine++;
-			if(nbLine!=id) charRead=fgetc(fileIn);
-			//printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
-		}
+		case '2':
+			toReturn = 2;	
+			break;
 
-		if(nbLine==id)
-		{
-			printf("Destination atteinte !! \n\n");
-			fputs(instruction,fileIn);
-		}
-	}
-	fclose(fileIn);
-}
+		case '3':
+			toReturn = 3;	
+			break;
+
+		case '4':
+			toReturn = 4;	
+			break;
+
+		case '5':
+			toReturn = 5;	
+			break;
+
+		case '6':
+			toReturn = 6;	
+			break;
+
+		case '7':
+			toReturn = 7;	
+			break;
+
+		case '8':
+			toReturn = 8;	
+			break;
+
+		case '9':
+			toReturn = 9;	
+			break;
 
 
-/* Prend en entrée une string source de longueur src_size de caractères hexa */
-/* Ecrit le résultat converti en binaire dans la string de destination */
-/*
-char *convertHexaToBinary(char *string, int src_size, char *stringDest)
-{
-	long int index=0;
-	char toReturn[9]={0,0,0,0,0,0,0,0,'\0'};
-
-    while(string[index]!='\0')
-    {
-        switch(string[index])
-        {
-            case '0': printf("0000"); break;
-            case '1': printf("0001"); break;
-            case '2': printf("0010"); break;
-            case '3': printf("0011"); break;
-            case '4': printf("0100"); break;
-            case '5': printf("0101"); break;
-            case '6': printf("0110"); break;
-            case '7': printf("0111"); break;
-            case '8': printf("1000"); break;
-            case '9': printf("1001"); break;
-            case 'A': printf("1010"); break;
-            case 'B': printf("1011"); break;
-            case 'C': printf("1100"); break;
-            case 'D': printf("1101"); break;
-            case 'E': printf("1110"); break;
-            case 'F': printf("1111"); break;
-            case 'a': printf("1010"); break;
-            case 'b': printf("1011"); break;
-            case 'c': printf("1100"); break;
-            case 'd': printf("1101"); break;
-            case 'e': printf("1110"); break;
-            case 'f': printf("1111"); break;
-			default: printf("Erreur : %c n'est pas un caractère hexadécimal connu.",string[index]);
-		}
-		printf("\n\n");
+		default:
+			toReturn = 0;
+			break;
 	}
 
 	return toReturn;
 }
-*/
+
+//Ajouter une chaine à la fin d'une autre
+void appendStr(char *src,char *dest){
+	
+	//Chercher la fin de la chaine de destination
+	int startIndex  = 0;
+	while(dest[startIndex] != '\0')
+		startIndex++;
+	
+	//Ajouter la chaine à la fin
+	int i = 0;
+	while(src[i] != '\0'){
+		dest[startIndex+i] = src[i];
+		i++;
+	}
+}
+
+//Convertir 4 bits char en Hexa
+char strToHex(const char *src){
+
+	char toReturn;
+
+	//Copier les 4 premiers bits
+	char temp[4] = {0};
+	for(int i = 0;i<4;i++)
+		temp[i] = src[i];
+
+	//Trouver le caractère à retourner
+	if(strcmp(temp,"0000") == 0)
+		toReturn = '0';
+	else if (strcmp(temp,"0001") == 0)
+		toReturn = '1';
+	else if (strcmp(temp,"0010") == 0)
+		toReturn = '2';
+	else if (strcmp(temp,"0011") == 0)
+		toReturn = '3';	
+	else if (strcmp(temp,"0100") == 0)
+		toReturn = '4';
+	else if (strcmp(temp,"0101") == 0)
+		toReturn = '5';
+	else if (strcmp(temp,"0110") == 0)
+		toReturn = '6';
+	else if (strcmp(temp,"0111") == 0)
+		toReturn = '7';
+	else if (strcmp(temp,"1000") == 0)
+		toReturn = '8';
+	else if (strcmp(temp,"1001") == 0)
+		toReturn = '9';
+	else if (strcmp(temp,"1010") == 0)
+		toReturn = 'A';
+	else if (strcmp(temp,"1011") == 0)
+		toReturn = 'B';
+	else if (strcmp(temp,"1100") == 0)
+		toReturn = 'C';
+	else if (strcmp(temp,"1101") == 0)
+		toReturn = 'D';
+	else if (strcmp(temp,"1110") == 0)
+		toReturn = 'E';
+	else if (strcmp(temp,"1111") == 0)
+		toReturn = 'F';
+
+	return toReturn;
+}

@@ -2,13 +2,12 @@
 #define UTILS_H
 
 int getOperationSize(char *s);
+void convertToBinarySized(int toConvert, char *dest,int size);
+int getOperandeWithPosition(char *s,int index);
 
-int getInstructionCount(char *string);
 
-void readInstructionInFile(char *nameFile, int id, char *instruction);
-
-void writeInstructionInFile(char *nameFile, int id, char *instruction);
-
-//char *convertHexaToBinary(char *string);
+int charToInt(char c);
+void appendStr(char *src,char *dest);
+char strToHex(const char *src);
 
 #endif
