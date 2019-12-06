@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fileInstructions.h"
 
 /* Prend en paramètres une instruction TERMINEE PAR UN ' ' ex. "ADDI " */
@@ -14,11 +15,32 @@ void getOperationCode(char *instruction, char *opcode)
 
 	for(index=0;index<6;index++) opcode[index]=0;
 
+	if(strcmp(instruction,"ADD")) strcpy(opcode,"100000");
+	if(strcmp(instruction,"AND")) strcpy(opcode,"100100");
+	if(strcmp(instruction,"SUB")) strcpy(opcode,"100010");
+	if(strcmp(instruction,"OR")) strcpy(opcode,"100101");
+	if(strcmp(instruction,"XOR")) strcpy(opcode,"100110");
+	if(strcmp(instruction,"SLT")) strcpy(opcode,"101010");
+	if(strcmp(instruction,"NOP")) strcpy(opcode,"000000");
+	if(strcmp(instruction,"SLL")) strcpy(opcode,"000000");
+	if(strcmp(instruction,"SRL")) strcpy(opcode,"000010");
+	if(strcmp(instruction,"ROTR")) strcpy(opcode,"000010");
+	if(strcmp(instruction,"JR")) strcpy(opcode,"001000");
+	if(strcmp(instruction,"MFHI")) strcpy(opcode,"010000");
+	if(strcmp(instruction,"MFLO")) strcpy(opcode,"010010");
+	if(strcmp(instruction,"MULT")) strcpy(opcode,"011000");
+	if(strcmp(instruction,"DIV")) strcpy(opcode,"011010");
+	if(strcmp(instruction,"SYSCALL")) strcpy(opcode,"001100");
+
 	if(instruction[0]=='J')
 	{
-		opcode[4]=1;
-		if(instruction[1]=='A' && instruction[2]=='L') opcode[5]=1;
-		/* Condition 1 fausse implique condition 2 non évaluée (ici problème ssi instruction[1]=' ')*/
+		if(instruction[1]=='R') opcode[2]=1;
+		else
+		{
+			opcode[4]=1;
+			if(instruction[1]=='A' && instruction[2]=='L') opcode[5]=1;
+			/* Condition 1 fausse implique condition 2 non évaluée (ici problème ssi instruction[1]=' ')*/
+		}
 	}
 
 	if(instruction[0]=='B')
@@ -33,7 +55,14 @@ void getOperationCode(char *instruction, char *opcode)
 		}
 	}
 
-	if(instruction[0]=='A' && instruction[1]=='D' && instruction[2]=='D' && instruction[3]=='I') opcode[2]=1;
+	//if(instruction[0]=='A' && instruction[1]=='D' && instruction[2]=='D' && instruction[3]==' ') opcode[0]=1;
+	//if(instruction[0]=='A' && instruction[1]=='D' && instruction[2]=='D' && instruction[3]=='I') opcode[2]=1;
+
+	if(instruction[0]=='A' && instruction[1]=='N' && instruction[2]=='D' && instruction[3]==' ')
+	{
+		opcode[2]=1;
+		opcode[5]=1;
+	}
 
 	if((instruction[0]=='L' || instruction[0]=='S') && instruction[1]=='W')
 	{
