@@ -11,44 +11,59 @@
 /* Charge l'opcode de cette instruction ex. 001000 dans le tableau opcode */
 void getOperationCode(char *instruction, char *opcode)
 {
-	int index;
+	int index=0;
+	int size=0;
 
+	char *instruction_tmp;
+
+	/* Calcule de la taille à allouer */
+
+	while(instruction[size]!=' ')
+	{
+		size++;	
+	}
+	instruction_tmp=malloc(size*sizeof(char));
+
+	for(index=0; index < size; index++) instruction_tmp[index]=instruction[index];
+	instruction_tmp[size]='\0';
 	for(index=0;index<6;index++) opcode[index]=0;
 
-	if(strcmp(instruction,"ADD")) strcpy(opcode,"100000");
-	if(strcmp(instruction,"ADDI")) strcpy(opcode,"001000");
-	if(strcmp(instruction,"AND")) strcpy(opcode,"100100");
+	//printf("\n\n%d %s %d %d %d\n\n",size, instruction_tmp,strcmp(instruction,"AND\0"),strcmp("AND\0","AND\0"),memcmp(instruction_tmp,"AND\0",size));
 
-	if(strcmp(instruction,"BEQ")) strcpy(opcode,"000100");
-	if(strcmp(instruction,"BNE")) strcpy(opcode,"000101");
-	if(strcmp(instruction,"BLEZ")) strcpy(opcode,"000110");
-	if(strcmp(instruction,"BGTZ")) strcpy(opcode,"000111");
+	if(memcmp(instruction_tmp,"ADD\0",size)==0) strcpy(opcode,"100000");
+	else if(memcmp(instruction,"ADDI\0",size)==0) strcpy(opcode,"001000");
+	else if(memcmp(instruction,"AND\0",size)==0) strcpy(opcode,"100100");
+
+	else if(memcmp(instruction,"BEQ\0",size)==0) strcpy(opcode,"000100");
+	else if(memcmp(instruction,"BNE\0",size)==0) strcpy(opcode,"000101");
+	else if(memcmp(instruction,"BLEZ\0",size)==0) strcpy(opcode,"000110");
+	else if(memcmp(instruction,"BGTZ\0",size)==0) strcpy(opcode,"000111");
 
 
-	if(strcmp(instruction,"DIV")) strcpy(opcode,"011010");
-	if(strcmp(instruction,"J")) strcpy(opcode,"000010");
-	if(strcmp(instruction,"JAL")) strcpy(opcode,"000011");
-	if(strcmp(instruction,"JR")) strcpy(opcode,"001000");
+	else if(memcmp(instruction,"DIV\0",size)==0) strcpy(opcode,"011010");
+	else if(memcmp(instruction,"J\0",size)==0) strcpy(opcode,"000010");
+	else if(memcmp(instruction,"JAL\0",size)==0) strcpy(opcode,"000011");
+	else if(memcmp(instruction,"JR\0",size)==0) strcpy(opcode,"001000");
 
-	if(strcmp(instruction,"LUI")) strcpy(opcode,"001111");
-	if(strcmp(instruction,"LW")) strcpy(opcode,"100011");
+	else if(memcmp(instruction,"LUI\0",size)==0) strcpy(opcode,"001111");
+	else if(memcmp(instruction,"LW\0",size)==0) strcpy(opcode,"100011");
 
-	if(strcmp(instruction,"MFHI")) strcpy(opcode,"010000");
-	if(strcmp(instruction,"MFLO")) strcpy(opcode,"010010");
-	if(strcmp(instruction,"MULT")) strcpy(opcode,"011000");
+	else if(memcmp(instruction,"MFHI\0",size)==0) strcpy(opcode,"010000");
+	else if(memcmp(instruction,"MFLO\0",size)==0) strcpy(opcode,"010010");
+	else if(memcmp(instruction,"MULT\0",size)==0) strcpy(opcode,"011000");
 
-	if(strcmp(instruction,"NOP")) strcpy(opcode,"000000");
-	if(strcmp(instruction,"OR")) strcpy(opcode,"100101");
-	if(strcmp(instruction,"ROTR")) strcpy(opcode,"000010");
+	else if(memcmp(instruction,"NOP\0",size)==0) strcpy(opcode,"000000");
+	else if(memcmp(instruction,"OR\0",size)==0) strcpy(opcode,"100101");
+	else if(memcmp(instruction,"ROTR\0",size)==0) strcpy(opcode,"000010");
+
+	else if(memcmp(instruction,"SLL\0",size)==0) strcpy(opcode,"000000");
+	else if(memcmp(instruction,"SLT\0",size)==0) strcpy(opcode,"101010");
+	else if(memcmp(instruction,"SRL\0",size)==0) strcpy(opcode,"000010");
+	else if(memcmp(instruction,"SUB\0",size)==0) strcpy(opcode,"100010");
 	
-	if(strcmp(instruction,"SLL")) strcpy(opcode,"000000");
-	if(strcmp(instruction,"SLT")) strcpy(opcode,"101010");
-	if(strcmp(instruction,"SRL")) strcpy(opcode,"000010");
-	if(strcmp(instruction,"SUB")) strcpy(opcode,"100010");
-	
-	if(strcmp(instruction,"SW")) strcpy(opcode,"101011");
-	if(strcmp(instruction,"SYSCALL")) strcpy(opcode,"001100");
-	if(strcmp(instruction,"XOR")) strcpy(opcode,"100110");
+	else if(memcmp(instruction,"SW\0",size)==0) strcpy(opcode,"101011");
+	else if(memcmp(instruction,"SYSCALL\0",size)==0) strcpy(opcode,"001100");
+	else if(memcmp(instruction,"XOR\0",size)==0) strcpy(opcode,"100110");
 }
 
 
