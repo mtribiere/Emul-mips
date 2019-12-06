@@ -16,6 +16,8 @@ void instructionToHex(char *s,char *dest){
 	//Si l'instruction est de type I
 	if(strstr(s,"ADDI") != NULL){
 			instructionToBinary(s,1,0,instructionBinary);
+	}else if (strstr(s,"ADD") != NULL){
+			instructionToBinary(s,0,1,instructionBinary);
 	}
 
 	//////////////Convertir en hexa
@@ -43,6 +45,55 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 	char *operande1Char = NULL;
 	char *operande2Char = NULL;
 	char *destinationChar = NULL;
+
+
+	//////////////////////////////Si c'est une operation de type R
+	if(type == 0){
+		operande1Char = malloc(sizeof(char)*6);
+		operande2Char = malloc(sizeof(char)*6);
+		destinationChar = malloc(sizeof(char)*6);
+
+		//Copier le code operation
+		strcpy(operationCode,"100000");
+
+		//Recuperer les operandes
+		operande1 = getOperandeWithPosition(s,2);
+		operande2 = getOperandeWithPosition(s,3);
+		destination = getOperandeWithPosition(s,1);
+
+		//Convertir les operandes en binaire
+		convertToBinarySized(operande1,operande1Char,5);
+		convertToBinarySized(operande2,operande2Char,5);
+		convertToBinarySized(destination,destinationChar,5);
+
+		/////Si c'est un type special
+		if(isSpecial){
+			
+			//Ajouter l'opcode à la fin et du padding au debut
+			appendStr("000000",dest);
+			appendStr(operande1Char,dest);
+			appendStr(operande2Char,dest);
+			appendStr(destinationChar,dest);
+			appendStr("00000",dest);
+			appendStr(operationCode,dest);
+		
+		}else{
+
+			//Ajouter l'opcode au debut et du padding à la fin
+			appendStr(operationCode,dest);
+			appendStr(operande1Char,dest);
+			appendStr(operande2Char,dest);
+			appendStr(destinationChar,dest);
+			appendStr("00000",dest); //Registre SA 
+			appendStr("000000",dest); //Padding
+		
+		}
+
+		//Liberer la memoire
+		free(operande1Char);
+		free(operande2Char);
+		free(destinationChar);
+	}
 
 	//////////////////////////////Si c'est une operation de type I et qu'elle est non special
 	if(type == 1 && !isSpecial){
@@ -73,5 +124,9 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 		appendStr(operande1Char,dest);
 		appendStr(operande2Char,dest);
 
+		//Liberer la memoire
+		free(operande1Char);
+		free(operande2Char);
+		free(destinationChar);
 	}
 }

@@ -161,7 +161,7 @@ char strToHex(const char *src){
 	if(strcmp(temp,"0000") == 0)
 		toReturn = '0';
 	else if (strcmp(temp,"0001") == 0)
-		toReturn = '1';
+		toReturn = '1'; 
 	else if (strcmp(temp,"0010") == 0)
 		toReturn = '2';
 	else if (strcmp(temp,"0011") == 0)

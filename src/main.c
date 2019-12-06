@@ -13,7 +13,7 @@ int main(void)
 	char instructionHex[9] = {0};
 	instructionHex[8] = '\0';
 
-	instructionToHex("ADDI $2,$3,200",instructionHex);
+	instructionToHex("ADD $2,$3,$4",instructionHex);
 
 	printf("Convertion en hexa : %s\n",instructionHex);
 	
