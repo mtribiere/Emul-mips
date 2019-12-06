@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "Instruction/instructionConverter.h"
+#include "Instruction/instructionInfo.h"
 #include "utils.h"
 
 
@@ -15,9 +16,9 @@ void instructionToHex(char *s,char *dest){
 	
 	//Si l'instruction est de type I
 	if(strstr(s,"ADDI") != NULL){
-			instructionToBinary(s,1,0,instructionBinary);
+			instructionToBinary(s,getInstructionType(s),getIsSpecial(s),instructionBinary);
 	}else if (strstr(s,"ADD") != NULL){
-			instructionToBinary(s,0,1,instructionBinary);
+			instructionToBinary(s,getInstructionType(s),getIsSpecial(s),instructionBinary);
 	}
 
 	//////////////Convertir en hexa
@@ -27,7 +28,6 @@ void instructionToHex(char *s,char *dest){
 		dest[destinationIndex] = temp;
 		destinationIndex++;
 	}
-
 }
 
 //*******************//

@@ -1,21 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Instruction/instructionConverter.h"
+#include "Instruction/instructionInfo.h"
 #include "utils.h"
+
+
+
+/****
+ * Instructions supportées
+ * 
+ * ADDI
+ * ADD
+ * 
+ * ***/
 
 int main(void)
 {
 	/////////////////////Lancer l'émulateur
 	printf("\n========== Emul-mips qui claque ===========\n");
 	
-	printf("Taille code opération : %d\n\n",getOperationSize("ADDI $2,$8,3"));
-	
 	char instructionHex[9] = {0};
 	instructionHex[8] = '\0';
 
-	instructionToHex("ADD $2,$3,$4",instructionHex);
+	instructionToHex("ADDI $78,$12,$20",instructionHex);
 
-	printf("Convertion en hexa : %s\n",instructionHex);
-	
+	printf("Convertion en hexa : %s\n\n",instructionHex);
+
 	return 0;
 }
