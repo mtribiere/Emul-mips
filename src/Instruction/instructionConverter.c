@@ -13,13 +13,7 @@ void instructionToHex(char *s,char *dest){
 	char instructionBinary[33]={0};
 	instructionBinary[32] = '\0';
 
-	
-	//Si l'instruction est de type I
-	if(strstr(s,"ADDI") != NULL){
-			instructionToBinary(s,getInstructionType(s),getIsSpecial(s),instructionBinary);
-	}else if (strstr(s,"ADD") != NULL){
-			instructionToBinary(s,getInstructionType(s),getIsSpecial(s),instructionBinary);
-	}
+	instructionToBinary(s,getInstructionType(s),getIsSpecial(s),instructionBinary);
 
 	//////////////Convertir en hexa
 	int destinationIndex = 0;
