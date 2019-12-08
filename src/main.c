@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 		printf("Instruction %d : %s\n",i,instructionHex);
 
 	}
-
+	printf("\n");
   	
 	////////////////////Liberer la memoire
 	for(int i = 0;i<MAX_PROGRAM_LENGTH;i++)
