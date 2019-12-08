@@ -3,109 +3,79 @@
 #include <string.h>
 #include "fileManager.h"
 
-/* Fonction qui calcule le nombre d'opérations dans un fichier */
-int getInstructionCount(char *nameFile)
+/* Fonction qui lit les instructions du fichier et les load*/ 
+int loadInstructionfromFile(char *nameFile, char *instructions[])
 {
 	FILE *fileIn;
+	char charRead='A';
 
-	int nbLine=0;
-	char charRead;
+	int lineCount=0;
+	int nextCharIndex = 0;
 
-	fileIn=fopen(nameFile,"r");
-	if(fileIn==NULL){
-		 printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
-		 exit(2);
-
-	}else{
-		charRead=fgetc(fileIn);
-		while(charRead != EOF)
-		{
-			//printf("\nDébut de la boucle \n\n");
-			if(charRead=='\n') nbLine++;
-			charRead=fgetc(fileIn);
-			//printf(" nbLine : %d	charRead : %c char attendu : %c \n\n",nbLine,charRead,'\\');
-			//printf("\nFin de la boucle \n\n");
-		}
-	}
-
-	return nbLine;
-}
-
-/* Fonction qui lit l'instruction n°id dans le fichier fourni et la load dans instruction */
-void readInstructionInFile(char *nameFile, int id, char *instruction)
-{
-	FILE *fileIn;
-	char charRead;
-
-	int nbLine=0;
-	int indexInstruction=0;
-
+	//Ouvrir le fichier et gerer les erreurs
 	fileIn=fopen(nameFile,"r");
 	if(fileIn==NULL)
 	{
 		printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
-		instruction=NULL;
+		exit(2);
 	}
 	else
-	{
-		charRead=fgetc(fileIn);
-		//printf("Entrée dans la boucle ok \n\n");
-		
-		while(charRead!=EOF && nbLine!=id)
+	{	
+		//Tant qu'on a pas atteint la fin du fichier
+		while(charRead!=EOF)
 		{
-			if(charRead=='\n') nbLine++;
+			//Charger le prochain caractere
 			charRead=fgetc(fileIn);
-			//printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
-		}
 
-		if(nbLine==id)
-		{
-			while(charRead!='\n')
-			{
-				instruction[indexInstruction]=charRead;
-				indexInstruction++;
-				charRead=fgetc(fileIn);
-				//printf(" indexInstruction : %d	charRead : %c \n\n",nbLine,charRead);
+			//Si c'est un retour à la ligne
+			if(charRead=='\n'){
+				
+				//Poser la sentinelle et passer à la ligne suivante
+				instructions[lineCount][nextCharIndex] = '\0';
+				lineCount++;
+				nextCharIndex = 0;
+
+
+			}else{//Sinon
+
+				//Charger le caractere et passer au suivant
+				instructions[lineCount][nextCharIndex] = charRead;
+				nextCharIndex++;
+
 			}
 		}
 		
 	}
+
+	//Fermer le fichier
 	fclose(fileIn);
+
+	return lineCount;
 }
 
-/* Fonction qui écrit l'instruction donnée dans le fichier fourni à la ligne n°id */
+/* Fonction qui écrit les instructions dans un fichier */
 /* ATTENTION : l'instruction doit se terminer par \0\n */
-void writeInstructionInFile(char *nameFile, int id, char *instruction)
+void writeInstructionInFile(char *nameFile, char *instructions[],int instructionCount)
 {
-	FILE *fileIn;
-	char charRead;
+	FILE *fileOut;
 
-	int nbLine=0;
-
-	/* Une ouverture de fichier en r+ paermet malgré tout d'écrire dedans!! */
-	fileIn=fopen(nameFile,"r+");
-	if(fileIn==NULL)
+	//Ouvrir le fichier et gerer les erreurs
+	fileOut=fopen(nameFile,"w");
+	if(fileOut==NULL)
 	{
-		printf("Erreur lors de l'ouverture du fichier en entrée.\n\n");
-		instruction=NULL;
+		printf("Erreur impossible de créer le fichier de sortie.\n\n");
+		exit(2);
 	}
 	else
 	{
-		charRead=fgetc(fileIn);
-		//printf("Entrée dans la boucle ok \n\n");
-
-		while(charRead!=EOF && nbLine!=id)
-		{
-			if(charRead=='\n') nbLine++;
-			if(nbLine!=id) charRead=fgetc(fileIn);
-			//printf(" nbLine : %d	charRead : %c \n\n",nbLine,charRead);
+		//Tant que toutes les instructions ne sont pas stockees
+		for(int i = 0;i<instructionCount;i++){
+				fputs(instructions[i],fileOut);
+				fputs("\n",fileOut);
 		}
-
-		if(nbLine==id)
-		{
-			//printf("Destination atteinte !! \n\n");
-			fputs(instruction,fileIn);
-		}
+		
 	}
-	fclose(fileIn);
+
+	//Fermer le fichier
+	fclose(fileOut);
 }
