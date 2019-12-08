@@ -48,7 +48,7 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 		destinationChar = malloc(sizeof(char)*6);
 
 		//Copier le code operation
-		strcpy(operationCode,"100000");
+		getOperationCode(s,operationCode);
 
 		//Recuperer les operandes
 		operande1 = getOperandeWithPosition(s,2);
@@ -98,7 +98,7 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 		destinationChar = malloc(sizeof(char)*17);
 
 		//Copier le code instruction
-		strcpy(operationCode,"001000");
+		getOperationCode(s,operationCode);
 		
 		//Recuperer les opérandes
 		operande1 = getOperandeWithPosition(s,1);

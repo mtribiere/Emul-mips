@@ -5,5 +5,6 @@
 
 int getInstructionType(const char *s);
 int getIsSpecial(const char *instruction);
+void getOperationCode(char *instruction, char *opcode);
 
 #endif

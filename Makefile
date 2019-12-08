@@ -1,4 +1,4 @@
-EXE = Emul-mips
+EXE = emul-mips
 CC=gcc
 
 SRC_DIR = src
@@ -27,4 +27,4 @@ clean:
 	$(RM) $(OBJ)
 
 test: $(EXE)
-	./$(EXE)
+	./$(EXE) test test
