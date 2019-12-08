@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"instructiontable.h": "c",
+		"instructioninfo.h": "c",
+		"utils.h": "c"
+	}
+}

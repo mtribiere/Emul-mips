@@ -8,8 +8,8 @@ SRC = $(wildcard $(SRC_DIR)/*.c)\
 	  $(wildcard $(SRC_DIR)/Instruction/*.c)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-CPPFLAGS += -Iinclude
-CFLAGS += -Wall
+CPPFLAGS += -Iinclude -I$(SRC_DIR)
+CFLAGS += -Wall -g 
 LDFLAGS += -Llib
 LDLIBS += -lm
 
