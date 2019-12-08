@@ -25,6 +25,5 @@ int main(void)
 	instructionToHex("ADDI $78,$12,$20",instructionHex);
 
 	printf("Convertion en hexa : %s\n\n",instructionHex);
-
-	return 0;
+  return 0;
 }
