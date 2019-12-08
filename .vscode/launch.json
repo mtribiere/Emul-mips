@@ -10,7 +10,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "emul-mips",
-			"args": ["testFiles/in.txt","a"],
+			"args": ["testFiles/in3.txt","out.txt"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

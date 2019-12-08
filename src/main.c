@@ -6,10 +6,6 @@
 #include "fileManager.h"
 #include "utils.h"
 
-#define MAX_PROGRAM_LENGTH 50
-#define MAX_INSTRUCTION_LENGTH 50
-#define INSTRUCTION_HEX_LENGTH 9
-
 
 /****
  * Instructions supportées
@@ -23,6 +19,9 @@
  * AND
  * OR
  * 
+ * Branching:
+ * BEQ
+ * BNE
  * 
  *****/
 
@@ -55,6 +54,10 @@ int main(int argc, char *argv[])
 	/////////////////////Lancer l'émulateur
 	printf("\n========== Emul-mips qui claque ===========\n");
 	
+	char hexTest[INSTRUCTION_HEX_LENGTH] = {0};
+	instructionToHex("ADDI $8,$8,2",hexTest);
+	printf("Test : %s\n",hexTest);
+
 	printf("\nNombre d'instruction : %d\n\n",instructionCount);
 
 	//Pour toutes les instructions
@@ -63,7 +66,15 @@ int main(int argc, char *argv[])
 		//Convertir
 		char instructionHex[INSTRUCTION_HEX_LENGTH] = {0};
 		instructionToHex(instructions[i],instructionHex);
-		
+
+		//DEBUG
+		/*int j = 0;
+		while(instructions[i][j] != '\0'){
+			printf(" %d ",instructions[i][j]);
+			j++;
+		}
+		printf("\n");*/
+
 		//Afficher
 		printf("%d : %s -> %s\n",i,instructions[i],instructionHex);
 
@@ -72,7 +83,6 @@ int main(int argc, char *argv[])
 
 	}
 	printf("\n");
-
 
 	//////////////////Stocker les instructions
 	writeInstructionInFile(argv[2],instructionsHex,instructionCount);

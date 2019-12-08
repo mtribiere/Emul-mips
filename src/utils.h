@@ -10,4 +10,6 @@ int charToInt(char c);
 void appendStr(char *src,char *dest);
 char strToHex(const char *src);
 
+void initializeArray(char *s,int size);
+
 #endif

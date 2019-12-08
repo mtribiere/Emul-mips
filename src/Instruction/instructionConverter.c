@@ -43,9 +43,15 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 
 	//////////////////////////////Si c'est une operation de type R
 	if(type == 0){
+
+		//Creer les varibales
 		operande1Char = malloc(sizeof(char)*6);
 		operande2Char = malloc(sizeof(char)*6);
 		destinationChar = malloc(sizeof(char)*6);
+
+		initializeArray(operande1Char,6);		
+		initializeArray(operande2Char,6);		
+		initializeArray(destinationChar,6);
 
 		//Copier le code operation
 		getOperationCode(s,operationCode);
@@ -94,8 +100,12 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 
 		//Creer les variables
 		operande1Char = malloc(sizeof(char)*6);
-		operande2Char = malloc(sizeof(char)*6);
-		destinationChar = malloc(sizeof(char)*17);
+		operande2Char = malloc(sizeof(char)*17);
+		destinationChar = malloc(sizeof(char)*6);
+
+		initializeArray(operande1Char,6);		
+		initializeArray(operande2Char,17);		
+		initializeArray(destinationChar,6);
 
 		//Copier le code instruction
 		getOperationCode(s,operationCode);
@@ -111,6 +121,11 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 		convertToBinarySized(operande1,operande1Char,5);
 		convertToBinarySized(operande2,operande2Char,16);
 		convertToBinarySized(destination, destinationChar,5);
+
+		operande1Char[5] = '\0';
+		operande2Char[16] = '\0';
+		destinationChar[5] = '\0';
+		
 		
 		//Tout stocker dans le buffer de retour
 		appendStr(operationCode,dest);

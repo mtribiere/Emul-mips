@@ -8,7 +8,7 @@ int getInstructionType(const char *s){
 	int toReturnType=-1;
 
 	//Copier l'instruction
-	char instruction[MAX_INSTRUCTION_SIZE] = {0};
+	char instruction[MAX_INSTRUCTION_LENGTH] = {0};
 	int index = 0;
 	while(s[index] != ' '){
 		instruction[index] = s[index];
@@ -25,7 +25,9 @@ int getInstructionType(const char *s){
 
 	//Declaration du tableau des types I
 	char *typeIInstruction[]={
-		"ADDI"
+		"ADDI",
+		"BEQ",
+		"BNE"
 	};
 
 	//Declaration du tableau des types J
@@ -69,7 +71,7 @@ int getIsSpecial(const char *s){
 	};
 
 	//Copier l'instruction
-	char instruction[MAX_INSTRUCTION_SIZE] = {0};
+	char instruction[MAX_INSTRUCTION_LENGTH] = {0};
 	int index = 0;
 	while(s[index] != ' '){
 		instruction[index] = s[index];
