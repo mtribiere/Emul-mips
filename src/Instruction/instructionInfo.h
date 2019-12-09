@@ -1,7 +1,9 @@
 #ifndef INSTRUCTION_INFO
 #define INSTRUCTION_INFO
 
-#define MAX_INSTRUCTION_SIZE 50
+#define MAX_PROGRAM_LENGTH 50
+#define MAX_INSTRUCTION_LENGTH 50
+#define INSTRUCTION_HEX_LENGTH 9
 
 int getInstructionType(const char *s);
 int getIsSpecial(const char *instruction);

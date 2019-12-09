@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Instruction/instructionConverter.h"
 #include "Instruction/instructionInfo.h"
 #include "fileManager.h"
 #include "utils.h"
-
-#define MAX_PROGRAM_LENGTH 50
-#define MAX_INSTRUCTION_LENGTH 50
 
 
 /****
@@ -21,15 +19,18 @@
  * AND
  * OR
  * 
+ * Branching:
+ * BEQ
+ * BNE
  * 
- * ***/
+ *****/
 
 int main(int argc, char *argv[])
 {
 	/////////////////////Recuperer les instructions
-	//Si pas de fichiers fourni
+	//Si pas d'arguments fourni
 	if(argc < 3){
-		printf("Usage ./emul-mips Fichier_source Fichier_destination\n");
+		printf("Usage : ./emul-mips Fichier_source Fichier_destination\n");
 		exit(1);
 	}
 
@@ -41,33 +42,53 @@ int main(int argc, char *argv[])
 	}
 
 	//Charger toutes les instructions
-	int instructionCount = getInstructionCount(argv[1]);
+	int instructionCount = loadInstructionfromFile(argv[1],instructions);
+
+	//Creer un tableau pour toutes les instructions en hexa
+	char *instructionsHex[instructionCount];
 	for(int i = 0;i<instructionCount;i++){
-		readInstructionInFile(argv[1],i,instructions[i]);
+		instructionsHex[i] = malloc(sizeof(char)*INSTRUCTION_HEX_LENGTH);
+		instructionsHex[i][INSTRUCTION_HEX_LENGTH-1] = '\0';
 	}
 
 	/////////////////////Lancer l'émulateur
-	printf("\n========== Emul-mips qui claque ===========\n");
-	
+	printf("\n========== Emul-mips - Marin Dautrey - Matthieu Ribiere ===========\n");
+
 	printf("\nNombre d'instruction : %d\n\n",instructionCount);
 
 	//Pour toutes les instructions
 	for(int i = 0;i<instructionCount;i++){
 		
-		char instructionHex[9] = {0};
-		instructionHex[8] = '\0';
-
+		//Convertir
+		char instructionHex[INSTRUCTION_HEX_LENGTH] = {0};
 		instructionToHex(instructions[i],instructionHex);
 
-		printf("Instruction %d : %s\n",i,instructionHex);
+		//DEBUG
+		/*int j = 0;
+		while(instructions[i][j] != '\0'){
+			printf(" %d ",instructions[i][j]);
+			j++;
+		}
+		printf("\n");*/
+
+		//Afficher
+		printf("%d : %s -> %s\n",i,instructions[i],instructionHex);
+
+		//Stocker
+		strcpy(instructionsHex[i],instructionHex);
 
 	}
+	printf("\n");
 
+	//////////////////Stocker les instructions
+	writeInstructionInFile(argv[2],instructionsHex,instructionCount);
   	
 	////////////////////Liberer la memoire
 	for(int i = 0;i<MAX_PROGRAM_LENGTH;i++)
 		free(instructions[i]);
 
+	for(int i = 0;i<instructionCount;i++)
+		free(instructionsHex[i]);
 
 	return 0;
 }

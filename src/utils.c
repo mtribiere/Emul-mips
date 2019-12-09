@@ -32,8 +32,6 @@ void convertToBinarySized(int toConvert, char *dest,int size){
         i++; 
 	} 
 
-
-
 	//Renverser la chaine
 	for(int j = 0;j<size;j++){
 		dest[j] = (converted[size-j-1])+48;  //Convertion en char
@@ -192,4 +190,9 @@ char strToHex(const char *src){
 		toReturn = 'F';
 
 	return toReturn;
+}
+
+void initializeArray(char *s,int size){
+	for(int i = 0;i<size;i++)
+		s[i] = 0;
 }

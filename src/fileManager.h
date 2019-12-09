@@ -5,9 +5,8 @@ int getOperationSize(char *s);
 
 int getInstructionCount(char *string);
 
-void readInstructionInFile(char *nameFile, int id, char *instruction);
+int loadInstructionfromFile(char *nameFile, char *instructions[]);
 
-void writeInstructionInFile(char *nameFile, int id, char *instruction);
-
+void writeInstructionInFile(char *nameFile, char *instructions[],int instructionCount);
 
 #endif
