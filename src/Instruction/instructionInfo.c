@@ -149,5 +149,6 @@ void getOperationCode(char *instruction, char *opcode)
 	else if(memcmp(instruction,"XOR",size)==0) strcpy(opcode,"100110");
 
 	//Liberer la memoire
+	//8==>
 	free(instruction_tmp);
 }

@@ -52,11 +52,7 @@ int main(int argc, char *argv[])
 	}
 
 	/////////////////////Lancer l'émulateur
-	printf("\n========== Emul-mips qui claque ===========\n");
-	
-	char hexTest[INSTRUCTION_HEX_LENGTH] = {0};
-	instructionToHex("ADDI $8,$8,2",hexTest);
-	printf("Test : %s\n",hexTest);
+	printf("\n========== Emul-mips - Marin Dautrey - Matthieu Ribiere ===========\n");
 
 	printf("\nNombre d'instruction : %d\n\n",instructionCount);
 
