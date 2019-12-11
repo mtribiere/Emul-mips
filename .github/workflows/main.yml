@@ -9,7 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run a multi-line script
-      run: |
-        echo Compilation automatique...
-        make
+    - name: Print title
+      run: echo "*** Compilation automatique ***"
+    - name : Clean
+      run: make clean
+    - name : Recompile everything
+      run: make
