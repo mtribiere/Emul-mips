@@ -196,3 +196,10 @@ void initializeArray(char *s,int size){
 	for(int i = 0;i<size;i++)
 		s[i] = 0;
 }
+
+void initializeStringArray(char *s[], int sizeArray,int sizeString){
+	for(int i = 0;i<sizeArray;i++){
+		s[i] = malloc(sizeof(char)*sizeString);
+		initializeArray(s[i],sizeString);
+	}
+}

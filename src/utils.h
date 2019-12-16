@@ -11,5 +11,6 @@ void appendStr(char *src,char *dest);
 char strToHex(const char *src);
 
 void initializeArray(char *s,int size);
+void initializeStringArray(char *s[], int sizeArray,int sizeString);
 
 #endif
