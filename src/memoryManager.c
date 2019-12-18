@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "utils.h"
 #include "memoryManager.h"
 
 void initializeRegister(int size,ProcRegister *registers)
@@ -11,7 +12,7 @@ void initializeRegister(int size,ProcRegister *registers)
 void initializeMemory(int size, MainMemory *memory)
 {
     memory->memorySize = size;
-	memory->mem = malloc(sizeof(int)*size);
+	memory->mem = malloc(sizeof(int)*(size));
 }
 
 int loadFromRegister(int index, ProcRegister registers){
@@ -28,6 +29,58 @@ void storeInRegister(int toStore, int index, ProcRegister *registers){
 
 	//Placer la données
 	(registers->mem[index]) = toStore;
+}
+
+
+int loadFromMemory(int index, MainMemory memory){
+	
+	int toReturn;
+	char toReturnBinary[32] = {0};
+
+	//Pour les 4 emplacements mémoires
+	for(int i = 0;i<4;i++){
+		//Verifier que l'emplacement existe
+		checkMemoryAddress(index+i);
+
+		//Ajouter à la fin de la chaine
+		char temp[9] = {0};
+		convertToBinarySized((memory.mem)[index+i],temp,8);
+
+		appendStr(temp,toReturnBinary);  		
+	}
+	
+	toReturn = convertBinToInt(toReturnBinary,32);
+
+	return toReturn;
+}
+
+void storeInMemory(int toStore, int index, MainMemory *memory){
+
+	//Convertir en binaire le chiffre
+	char binary[32] = {0};
+	convertToBinarySized(toStore,binary,32);
+	int currentPart = 0;
+
+	//Pour chaque index de bébut d'octet
+	for(int i = 0; i<32 ;i+=8){
+
+		//Copier dans un tableau temporaire
+		char temp[8] = {0};
+		for(int j = 0;j<8;j++){
+			temp[j] = binary[i+j]; 
+		}
+
+		//Stocker
+		(memory->mem)[index+currentPart] = convertBinToInt(temp,8);
+
+		//Verifier que l'emplacement existe
+		checkMemoryAddress(index+currentPart);
+
+		//Passer à la partie suivante
+		currentPart++;
+	}
+
+	
 }
 
 
@@ -49,4 +102,12 @@ void checkRegisterIndex(int index){
 		exit(3);
 	}
 
+}
+
+void checkMemoryAddress(int index){
+	//Verification
+	if(index < 0 || index >= MAIN_MEMORY_SIZE){
+		printf("Erreur : L'emplacement mémoire %d n'existe pas\n",index);
+		exit(4);
+	}
 }

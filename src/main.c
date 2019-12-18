@@ -88,8 +88,13 @@ int main(int argc, char *argv[])
 	writeInstructionInFile(argv[2],instructionsHex,instructionCount);
 
 	//////////////////TEST
-  	storeInRegister(0xC1B4,80,&registers);
+  	storeInRegister(0xC1B4,4,&registers);
 	printf("Load from Register : %d\n\n",loadFromRegister(4,registers));
+	storeInMemory(0x54D24B21,0x4,&mainMemory);
+	//storeInMemory(0x1F,0x4,&mainMemory);
+	//(mainMemory.mem[2]) = 0xFF;
+	printf("Load from Memory : %d\n",loadFromMemory(0,mainMemory));
+	printMainMemory(mainMemory);
 
 	////////////////////Liberer la memoire
 	//Pour les instructions
