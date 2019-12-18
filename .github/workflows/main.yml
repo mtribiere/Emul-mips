@@ -1,0 +1,17 @@
+name: COMPILE
+
+on: [push]
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Print title
+      run: echo "*** Compilation automatique ***"
+    - name : Clean
+      run: make clean
+    - name : Recompile everything
+      run: make

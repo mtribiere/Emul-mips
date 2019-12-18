@@ -4,6 +4,7 @@
 #include "Instruction/instructionConverter.h"
 #include "Instruction/instructionInfo.h"
 #include "fileManager.h"
+#include "memoryManager.h"
 #include "utils.h"
 
 
@@ -35,21 +36,24 @@ int main(int argc, char *argv[])
 	}
 
 	//Creer le tableau de toutes les instructions
+
 	char *instructions[MAX_PROGRAM_LENGTH] = {0};
-	for(int i = 0;i<MAX_PROGRAM_LENGTH;i++){
-		instructions[i] = malloc(sizeof(char)*MAX_INSTRUCTION_LENGTH);
-		instructions[i][MAX_INSTRUCTION_LENGTH-1] = '\0';
-	}
+	initializeStringArray(instructions,MAX_PROGRAM_LENGTH,MAX_INSTRUCTION_LENGTH);
 
 	//Charger toutes les instructions
 	int instructionCount = loadInstructionfromFile(argv[1],instructions);
 
 	//Creer un tableau pour toutes les instructions en hexa
 	char *instructionsHex[instructionCount];
-	for(int i = 0;i<instructionCount;i++){
-		instructionsHex[i] = malloc(sizeof(char)*INSTRUCTION_HEX_LENGTH);
-		instructionsHex[i][INSTRUCTION_HEX_LENGTH-1] = '\0';
-	}
+	initializeStringArray(instructionsHex,instructionCount,INSTRUCTION_HEX_LENGTH);
+
+	//Creer les registres
+	ProcRegister registers;
+	initializeRegister(REGISTER_COUNT,&registers);
+
+	//Creer la mémoire principale
+	MainMemory mainMemory;
+	initializeMemory(MAIN_MEMORY_SIZE,&mainMemory);
 
 	/////////////////////Lancer l'émulateur
 	printf("\n========== Emul-mips - Marin Dautrey - Matthieu Ribiere ===========\n");
@@ -82,13 +86,31 @@ int main(int argc, char *argv[])
 
 	//////////////////Stocker les instructions
 	writeInstructionInFile(argv[2],instructionsHex,instructionCount);
-  	
+
+	//////////////////TEST
+  	storeInRegister(0xC1B4,4,&registers);
+	printf("Load from Register : %d\n\n",loadFromRegister(4,registers));
+	storeInMemory(0x54D24B21,0x4,&mainMemory);
+	//storeInMemory(0x1F,0x4,&mainMemory);
+	//(mainMemory.mem[2]) = 0xFF;
+	printf("Load from Memory : %d\n",loadFromMemory(0,mainMemory));
+	printMainMemory(mainMemory);
+
 	////////////////////Liberer la memoire
+	//Pour les instructions
 	for(int i = 0;i<MAX_PROGRAM_LENGTH;i++)
 		free(instructions[i]);
 
+	//Pour les instructions Hexa
 	for(int i = 0;i<instructionCount;i++)
 		free(instructionsHex[i]);
+
+	//Pour les registres
+	freeRegisters(&registers);
+
+	//Pour la memoire principale
+	freeMainMemory(&mainMemory);
+	
 
 	return 0;
 }

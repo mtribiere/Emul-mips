@@ -2,7 +2,9 @@
 /*Fichier contenants des fonctions d'utilité (convertion, calcul de taille,....)*/
 /******************************************************/
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include "memoryManager.h"
 #include "utils.h"
 
 //Fonction qui calcule la taille du code opération
@@ -192,7 +194,48 @@ char strToHex(const char *src){
 	return toReturn;
 }
 
+int convertBinToInt(char *s,int size){
+	
+	int toReturn = 0;
+	int currentMul = 1;
+	//Pour tous les bits
+	for(int i = size-1;i>=0;i--){
+		
+		//Si le bit est à 1
+		if(s[i] == '1'){
+			toReturn += currentMul;
+		}
+
+		//Passer au bit suivant
+		currentMul *= 2;
+	}
+
+	return toReturn;
+}
+
 void initializeArray(char *s,int size){
 	for(int i = 0;i<size;i++)
 		s[i] = 0;
+}
+
+void initializeStringArray(char *s[], int sizeArray,int sizeString){
+	for(int i = 0;i<sizeArray;i++){
+		s[i] = malloc(sizeof(char)*sizeString);
+		initializeArray(s[i],sizeString);
+	}
+}
+
+
+void printMainMemory(MainMemory memory){
+
+	//Pour tout les index
+	for(int i = 0;i<(memory.memorySize);i++){
+		if(i%8 == 0){
+			printf("\n %d   : ",i);
+		}
+		printf(" %x ",(memory.mem)[i]);
+	}
+
+	printf("\n");
+
 }

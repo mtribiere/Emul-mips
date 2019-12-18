@@ -27,4 +27,4 @@ clean:
 	$(RM) $(OBJ)
 
 test: $(EXE)
-	./$(EXE) test test
+	./$(EXE) test/in.txt test
