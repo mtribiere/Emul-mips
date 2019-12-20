@@ -7,7 +7,6 @@
 #include "memoryManager.h"
 #include "utils.h"
 
-
 /****
  * Instructions supportées
  * 
@@ -23,6 +22,8 @@
  * Branching:
  * BEQ
  * BNE
+ * BGTZ
+ * BLEZ
  * 
  *****/
 

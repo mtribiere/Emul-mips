@@ -4,6 +4,7 @@
 
 int getOperationSize(char *s);
 void convertToBinarySized(int toConvert, char *dest,int size);
+int getOperandeCount(char *s);
 int getOperandeWithPosition(char *s,int index);
 
 

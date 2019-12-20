@@ -27,7 +27,9 @@ int getInstructionType(const char *s){
 	char *typeIInstruction[]={
 		"ADDI",
 		"BEQ",
-		"BNE"
+		"BNE",
+		"BGTZ",
+		"BLEZ"
 	};
 
 	//Declaration du tableau des types J

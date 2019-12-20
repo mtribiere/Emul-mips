@@ -1,9 +1,10 @@
 ADDI $9,$0,5
 ADD $11,$10,$11
 ADDI $8,$0,0
-ADDI $10,$0,3#Autre Commentaire
+BLEZ $8,12
+ADDI $10,$0,3
 ADDI $8,$8,1
-ADDI $2,$3,200 #Commentaire
 ADD $7,$1,$3
 ADDI $11,$0,0
+BGTZ $4,5
 BNE $9,$8,3
