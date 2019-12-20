@@ -41,6 +41,26 @@ void convertToBinarySized(int toConvert, char *dest,int size){
 	
 }
 
+//Obtenir le nombre d'operande
+int getOperandeCount(char *s){
+	int toReturn = 0;
+
+	int i = 0;
+	//Tant qu'on a pas atteint la fin de la chaine
+	while(s[i] != '\0'){
+		//Si on rencontre un espace ou une virgule
+		if(s[i] == ' ' || s[i] == ',')
+			toReturn++;
+
+		i++;
+	}
+
+	//Ajouter le dernier opérandes
+	toReturn++;
+	
+	return toReturn;
+}
+
 //Obtenir un operande avec une position
 int getOperandeWithPosition(char *s,int index){
 

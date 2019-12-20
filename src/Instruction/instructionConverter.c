@@ -130,13 +130,25 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 
 		//Copier le code instruction
 		getOperationCode(s,operationCode);
-		
-		//Recuperer les opérandes
-		operande1 = getOperandeWithPosition(s,1);
-		operande2 = getOperandeWithPosition(s,3);
 
-		//Recupere la destination
-		destination = getOperandeWithPosition(s,2);
+		
+		//Recupperer les operandes et la destination
+		if(getOperandeCount(s) <= 3){
+
+			operande1 = getOperandeWithPosition(s,1);
+			operande2 = getOperandeWithPosition(s,2);
+			
+			destination = 0;
+		
+		}else{//Sinon
+
+			operande1 = getOperandeWithPosition(s,1);
+			operande2 = getOperandeWithPosition(s,3);
+
+			destination = getOperandeWithPosition(s,2);
+		
+		}
+
 
 		//Convertir tout en binaire
 		convertToBinarySized(operande1,operande1Char,5);
@@ -147,13 +159,24 @@ void instructionToBinary(char *s,int type,int isSpecial,char *dest){
 		operande2Char[16] = '\0';
 		destinationChar[5] = '\0';
 		
-		
-		//Tout stocker dans le buffer de retour
-		appendStr(operationCode,dest);
-		appendStr(destinationChar,dest);
-		appendStr(operande1Char,dest);
-		appendStr(operande2Char,dest);
+		////Tout stocker dans le buffer de retour
+		//Si on a 3 operande
+		if(getOperandeCount(s) <= 3){
+			
+			appendStr(operationCode,dest);
+			appendStr(operande1Char,dest);
+			appendStr(destinationChar,dest);
+			appendStr(operande2Char,dest);
+	
+		}else{ //Sinon
+			appendStr(operationCode,dest);
+			appendStr(destinationChar,dest);
+			appendStr(operande1Char,dest);
+			appendStr(operande2Char,dest);
+			
+		}
 
+		
 		//Liberer la memoire
 		free(operande1Char);
 		free(operande2Char);
