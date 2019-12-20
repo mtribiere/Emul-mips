@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	//Pour toutes les instructions
 	for(int i = 0;i<instructionCount;i++){
 		
-		//Convertir
+		//Convertir en hexa
 		char instructionHex[INSTRUCTION_HEX_LENGTH] = {0};
 		instructionToHex(instructions[i],instructionHex);
 
