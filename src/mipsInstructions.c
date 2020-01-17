@@ -4,221 +4,158 @@
 #include "mipsInstructions.h"
 #include "utils.h"
 
-/* Dans ce fichier, nous assumons que les opérandes sont des chaines de 5 bits */
+/* Dans ce fichier, nous assumons que les opérandes sont déjà convertis en entiers décimaux */
 
-int myPow(int x, int y)
+void ADD(long int *oper1, long int *oper2, long int *result)
 {
-    int result=1;
+    *result=(*oper1) + (*oper2);
+}
 
-    while(y > 0)
+void SUB(long int *oper1, long int *oper2, long int *result)
+{
+    *result=(*oper1) - (*oper2);
+}
+
+void AND(long int *oper1, long int *oper2, long int *result)
+{
+    *result = (*oper1) & (*oper2);
+}
+
+void OR(long int *oper1, long int *oper2, long int *result)
+{
+    *result = (*oper1) | (*oper2);
+}
+
+void XOR(long int *oper1, long int *oper2, long int *result)
+{
+    *result = (*oper1) ^ (*oper2);
+}
+
+void DIV(long int *oper1, long int *oper2, long int *result)
+{
+    *result = (long int) (*oper1)/(*oper2);
+}
+
+void MULT(long int *oper1, long int *oper2, long int *resultHigh, long int *resultLow)
+{
+    /* Si le résultat excède ou égale 2^32, le résultat sera converti en un nombre négatif */
+    /* Nous traitons donc le cas en avance pour conserver un long int signé */
+    if (*oper1 >= myPow(2,16) && (*oper2 >= myPow(2,16)))
     {
-        result*=x;
-        y--;
+        printf("\n Pour l'instant tailles opérandes trop grande \n");
+    }
+    else *resultHigh = (*oper1)*(*oper2);
+}
+
+void BEQ(long int *oper1, long int *oper2, long int *result)
+{
+    if ((*oper1)==(*oper2)) *result=1;
+    else *result=0;
+}
+
+void BGTZ(long int *oper1, long int *result)
+{
+    if ((*oper1) > 0) *result=1;
+    else *result=0;
+}
+
+void BLEZ(long int *oper1, long int *result)
+{
+    if ((*oper1) <= 0) *result=1;
+    else *result=0;
+}
+
+void BNE(long int *oper1, long int *oper2, long int *result)
+{
+    if((*oper1) != (*oper2)) *result=1;
+    else *result=0;
+}
+
+void ROTR(long int *oper1, int index_rotation, long int *result)
+{
+    int index_oper1;
+    int index_result;
+
+    if(index_rotation < 0) index_rotation = 32+index_rotation;
+
+    int *result_tmp=malloc(32*sizeof(int));
+    int *oper1_tmp=intToBin(*oper1);
+
+    printf("\n Index rotation : %d \n\n",index_rotation);
+
+    for(index_oper1=31; index_oper1 >= 0; index_oper1--)
+    {
+        index_result=index_oper1 + index_rotation;
+        if(index_oper1 + index_rotation >= 32) index_result-=32;
+
+        *(result_tmp+index_result) = *(oper1_tmp+index_oper1);
     }
 
-    return result;
-}
-
-void ADD(int *oper1, int *oper2, int *result)
-{
-    int index;
-    int carry=0;
-
-    for (index=0; index < 5; index++)
+    for(index_result=0; index_result < 32; index_result++)
     {
-        result[index]=oper1[index]+oper2[index]+carry;
-        carry=0;
-        if(result[index]>=2)
-        {
-            result[index]-=2;
-            carry=1;
-        }
+        printf("%d",*(result_tmp+index_result));
     }
+
+    *result=binToInt(result_tmp);
+    free(result_tmp);
 }
 
-void AND(int *oper1, int *oper2, int *result)
+void SRL(long int *oper1, int index_rotation, long int *result)
 {
-    int index;
-    for(index=0; index < 5; index++) result[index]=(oper1[index]) & (oper2[index]);
+    *result = (*oper1) >> index_rotation;
 }
 
-void OR(int *oper1, int *oper2, int *result)
+void SLL(long int *oper1, int index_rotation, long int *result)
 {
-    int index;
-    for (index=0; index < 5; index++) result[index]=(oper1[index]) | (oper2[index]);
+    *result = (*oper1) << index_rotation;
 }
 
-void DIV(int *oper1, int *oper2, int *result)
+void SLT(long int *oper1, long int *oper2, long int *result)
 {
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-    int number_2 = oper2[0]+2*oper2[1]+4*oper2[2]+8*oper2[3]+16*oper2[4];
-
-    int result_div = (int) number_1/number_2;
-    /* It is said it is assumed if the program crashes due to division by 0, so ... */
-
-    int index;
-
-    for(index=0; index < 5; index++)
-    {
-        if(result_div >= myPow(2,index))
-        {
-            result[index]=1;
-            result_div-=myPow(2,index);
-        }
-        else result[index]=0;
-    }
+    if(*oper1 < *oper2) *result=1;
+    else *result=0;
 }
 
-void MULT(int *oper1, int *oper2, int *result)
+void LUI(long int *oper1, long int *result)
 {
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-    int number_2 = oper2[0]+2*oper2[1]+4*oper2[2]+8*oper2[3]+16*oper2[4];
-
-    int result_mult = (int) number_1*number_2;
-
-    int index;
-
-    for(index=0; index < 5; index++)
-    {
-        if(result_mult >= myPow(2,index))
-        {
-            result[index]=1;
-            result_mult-=myPow(2,index);
-        }
-        else result[index]=0;
-    }
-}
-
-void BEQ(int *oper1, int *oper2, int *result)
-{
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-    int number_2 = oper2[0]+2*oper2[1]+4*oper2[2]+8*oper2[3]+16*oper2[4];
-
-    if (number_1==number_2) result[0]=1;
-    else
-    {
-        result[0]=0;
-        result[1]=0;
-        result[2]=0;
-        result[3]=0;
-        result[4]=0;
-    }
-}
-
-void BGTZ(int *oper1, int *result)
-{
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-
-    if (number_1 > 0) result[0]=1;
-    else
-    {
-        result[0]=0;
-        result[1]=0;
-        result[2]=0;
-        result[3]=0;
-        result[4]=0;
-    }
-}
-
-void BLEZ(int *oper1, int *result)
-{
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-
-    if (number_1 <= 0) result[0]=1;
-    else
-    {
-        result[0]=0;
-        result[1]=0;
-        result[2]=0;
-        result[3]=0;
-        result[4]=0;
-    }
-}
-
-void BNE(int *oper1, int *oper2, int *result)
-{
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-    int number_2 = oper2[0]+2*oper2[1]+4*oper2[2]+8*oper2[3]+16*oper2[4];
-
-    if(number_1 != number_2) result[0]=1;
-    else
-    {
-        result[0]=0;
-        result[1]=0;
-        result[2]=0;
-        result[3]=0;
-        result[4]=0;
-    }
-}
-
-void ROTR(int *oper1, int index_rotation, int *result)
-{
+    int *oper1_tmp = intToBin(*oper1);
     int index;
 
-    for(index=0; index < 5; index++)
+    *result=0;
+    for (index=31; index >= 16; index--)
     {
-        if(index+index_rotation < 0) result[index]=oper1[index+index_rotation+5];
-        else if(index+index_rotation >= 5) result[index]=oper1[index+index_rotation-5];
-        else result[index]=oper1[index+index_rotation];
+        *result+=myPow(2,16)*myPow(2,31-index)*oper1_tmp[index];
     }
 }
 
-void SRL(int *oper1, int index_rotation, int *result)
+long int *arithmetic(long int *oper1, long int *oper2, char *instruction)
 {
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
+    long int *result;
+    result=malloc(sizeof(long int));
+    long int *result_low;
+    result_low=malloc(sizeof(long int));
 
-    int result_srl = number_1 >> index_rotation;
-
-    int index;
-
-    for(index=0; index < 5; index++)
-    {
-        if(result_srl >= myPow(2,index))
-        {
-            result[index]=1;
-            result_srl-=myPow(2,index);
-        }
-        else result[index]=0;
-    }
-}
-
-void SLL(int *oper1, int index_rotation, int *result)
-{
-    int number_1 = oper1[0]+2*oper1[1]+4*oper1[2]+8*oper1[3]+16*oper1[4];
-
-    int result_sll = number_1 << index_rotation;
-
-    int index;
-
-    for(index=0; index < 5; index++)
-    {
-        if(result_sll >= myPow(2,index))
-        {
-            result[index]=1;
-            result_sll-=myPow(2,index);
-        }
-        else result[index]=0;
-    }
-}
-
-int *arithmetic(int *oper1, int *oper2, char *instruction)
-{
-    int index_rotation_or_shift=-3;
-
-    int *result;
-    result=malloc(6*sizeof(int));
-
-    /* Si oper1 et oper2 ne sont pas des int* mais des char* : les convertir en int* ici */
+    /* Nous assumons de faire la même chose pour ADD et ADDI */
+    /* car les éventuelles transformations en entiers décimaux ont déjà été faites */
     if(memcmp(instruction,"ADD",3)==0) ADD(oper1,oper2,result);
+
+    else if(memcmp(instruction,"SUB",3)==0) SUB(oper1,oper2,result);
 
     else if(memcmp(instruction,"AND",3)==0) AND(oper1,oper2,result);
 
     else if(memcmp(instruction,"OR",2)==0) OR(oper1,oper2,result);
 
+    else if(memcmp(instruction,"XOR",3)==0) XOR(oper1,oper2,result);
+
     else if(memcmp(instruction,"DIV",3)==0) DIV(oper1,oper2,result);
 
-    else if(memcmp(instruction,"MULT",4)==0) MULT(oper1,oper2,result);
-    
+    else if(memcmp(instruction,"MULT",4)==0)
+    {
+        MULT(oper1,oper2,result,result_low);
+        /* MULT fait deux return de long int de 32 bits dans deux registres spéciaux */
+        /* Il faudra donc écrire directement ici dans les registres spéciaux concernés */
+    }
+
     else if(memcmp(instruction,"BEQ",3)==0) BEQ(oper1,oper2,result);
 
     else if(memcmp(instruction,"BGTZ",4)==0) BGTZ(oper1,result);
@@ -227,11 +164,15 @@ int *arithmetic(int *oper1, int *oper2, char *instruction)
 
     else if(memcmp(instruction,"BNE",3)==0) BNE(oper1,oper2,result);
 
-    else if(memcmp(instruction,"ROTR",4)==0) ROTR(oper1,index_rotation_or_shift,result);
+    else if(memcmp(instruction,"ROTR",4)==0) ROTR(oper1,(int) (*oper2),result);
 
-    else if(memcmp(instruction,"SRL",3)==0) SRL(oper1,index_rotation_or_shift,result);
+    else if(memcmp(instruction,"SRL",3)==0) SRL(oper1,(int) (*oper2),result);
 
-    else if(memcmp(instruction,"SLL",3)==0) SLL(oper1,index_rotation_or_shift,result);
+    else if(memcmp(instruction,"SLL",3)==0) SLL(oper1,(int) (*oper2),result);
+
+    else if(memcmp(instruction,"SLT",3)==0) SLT(oper1,oper2,result);
+
+    else if(memcmp(instruction,"LUI",3)==0) LUI(oper1,result);
 
     return result;
 }

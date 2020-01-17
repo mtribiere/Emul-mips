@@ -3,30 +3,38 @@
 
 /* Dans ce fichier, nous assumons que les opérandes sont des chaines de 5 bits */
 
-void ADD(int *oper1, int *oper2, int *result);
+void ADD(long int *oper1, long int *oper2, long int *result);
 
-void AND(int *oper1, int *oper2, int *result);
+void SUB(long int *oper1, long int *oper2, long int *result);
 
-void OR(int *oper1, int *oper2, int *result);
+void AND(long int *oper1, long int *oper2, long int *result);
 
-void MULT(int *oper1, int *oper2, int *result);
+void OR(long int *oper1, long int *oper2, long int *result);
 
-void DIV(int *oper1, int *oper2, int *result);
+void XOR(long int *oper1, long int *oper2, long int *result);
 
-void BEQ(int *oper1, int *oper2, int *result);
+void MULT(long int *oper1, long int *oper2, long int *resultHigh, long int *resultLow);
 
-void BGTZ(int *oper1, int *result);
+void DIV(long int *oper1, long int *oper2, long int *result);
 
-void BLEZ(int *oper1, int *result);
+void BEQ(long int *oper1, long int *oper2, long int *result);
 
-void BNE(int *oper1, int *oper2, int *result);
+void BGTZ(long int *oper1, long int *result);
 
-void ROTR(int *oper1, int index_rotation, int *result);
+void BLEZ(long int *oper1, long int *result);
 
-void SRL(int *oper1, int index_rotation, int *result);
+void BNE(long int *oper1, long int *oper2, long int *result);
 
-void SLL(int *oper1, int index_rotation, int *result);
+void ROTR(long int *oper1, int index_rotation, long int *result);
 
-int *arithmetic(int *oper1, int *oper2, char *instruction);
+void SRL(long int *oper1, int index_rotation, long int *result);
+
+void SLL(long int *oper1, int index_rotation, long int *result);
+
+void SLT(long int *oper1, long int *oper2, long int *result);
+
+void LUI(long int *oper1, long int *result);
+
+long int *arithmetic(long int *oper1, long int *oper2, char *instruction);
 
 #endif
