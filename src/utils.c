@@ -214,9 +214,9 @@ char strToHex(const char *src){
 	return toReturn;
 }
 
-int convertBinToInt(char *s,int size){
+long int convertBinToInt(char *s,int size){
 	
-	int toReturn = 0;
+	long int toReturn = 0;
 	int currentMul = 1;
 	//Pour tous les bits
 	for(int i = size-1;i>=0;i--){
@@ -258,4 +258,13 @@ void printMainMemory(MainMemory memory){
 
 	printf("\n");
 
+}
+
+void printRegisters(ProcRegister registers){
+
+	//Pour tout les index
+	for(int i = 0;i<(registers.memorySize);i++){
+		printf("%d : %ld ;\n",i,loadFromRegister(i,registers));
+	}
+	printf("\n\n");
 }

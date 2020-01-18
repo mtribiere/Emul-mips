@@ -6,7 +6,7 @@
 void initializeRegister(int size,ProcRegister *registers)
 {
     registers->memorySize = size;
-	registers->mem = malloc(sizeof(int)*size);
+	registers->mem = malloc(sizeof(long int)*size);
 }
 
 void initializeMemory(int size, MainMemory *memory)
@@ -15,7 +15,7 @@ void initializeMemory(int size, MainMemory *memory)
 	memory->mem = malloc(sizeof(int)*(size));
 }
 
-int loadFromRegister(int index, ProcRegister registers){
+long int loadFromRegister(int index, ProcRegister registers){
 	//Verifier que le registre existe
 	checkRegisterIndex(index);
 
@@ -23,7 +23,7 @@ int loadFromRegister(int index, ProcRegister registers){
 	return ((registers.mem)[index]);
 }
 
-void storeInRegister(int toStore, int index, ProcRegister *registers){
+void storeInRegister(long int toStore, int index, ProcRegister *registers){
 	//Verifier que le registre existe
 	checkRegisterIndex(index);
 
@@ -32,9 +32,9 @@ void storeInRegister(int toStore, int index, ProcRegister *registers){
 }
 
 
-int loadFromMemory(int index, MainMemory memory){
+long int loadFromMemory(int index, MainMemory memory){
 	
-	int toReturn;
+	long int toReturn;
 	char toReturnBinary[32] = {0};
 
 	//Pour les 4 emplacements mémoires
