@@ -44,6 +44,13 @@ int main(int argc, char *argv[])
 	//Charger toutes les instructions
 	int instructionCount = loadInstructionfromFile(argv[1],instructions);
 
+	//Creer un tableau de tout les labels
+	char *labelTable[MAX_PROGRAM_LENGTH] = {0};
+	initializeStringArray(labelTable,MAX_PROGRAM_LENGTH,MAX_LABEL_NAME_LENGTH);
+
+	//Formater les instructions
+	formatInstructions(instructions,instructionCount,labelTable);
+
 	//Creer un tableau pour toutes les instructions en hexa
 	char *instructionsHex[instructionCount];
 	initializeStringArray(instructionsHex,instructionCount,INSTRUCTION_HEX_LENGTH);
@@ -83,7 +90,7 @@ int main(int argc, char *argv[])
 		strcpy(instructionsHex[i],instructionHex);
 
 	}
-
+	printf("\n\n");
 
 	////////////Partie emulation
 
