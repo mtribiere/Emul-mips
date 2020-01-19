@@ -44,11 +44,10 @@ void executeInstruction(char *instruction,ProcRegister *registers){
 	}
 
 	//Instruction non supportée
-	else{
+else{
 		printf("Instruction non supportée\n");
 	}
 	
 	//Passer à l'instruction suivante
 	storeInRegister(loadFromRegister(REGISTER_COUNT-1,*registers)+1,REGISTER_COUNT-1,registers);
-
 }
