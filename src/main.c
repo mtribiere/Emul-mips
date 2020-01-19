@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	//Charger toutes les instructions
 	int instructionCount = loadInstructionfromFile(argv[1],instructions);
 
-	//Creer un tableau de tout les labels
+	//Creer un tableau de tout les noms de label
 	char *labelTable[MAX_PROGRAM_LENGTH] = {0};
 	initializeStringArray(labelTable,MAX_PROGRAM_LENGTH,MAX_LABEL_NAME_LENGTH);
 
