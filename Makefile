@@ -27,4 +27,14 @@ clean:
 	$(RM) $(OBJ)
 
 test: $(EXE)
-	./$(EXE) test/in.txt test
+	./$(EXE) testFiles/in3.txt test
+
+check: $(EXE)
+	mkdir tests
+	cp testFiles/in3.txt tests
+	mkdir hexified 
+	echo '\n' | exemple/exemples2019/emul-mips in3.txt 
+	./$(EXE) exemple/exemples2019/tests/in3.txt hexified/in3-2.txt
+	diff -i hexified/in3.txt hexified/in3-2.txt
+	
+

@@ -6,6 +6,7 @@
 #include <string.h>
 #include "memoryManager.h"
 #include "utils.h"
+#include "Instruction/instructionInfo.h"
 
 //Fonction qui calcule la taille du code opération
 int getOperationSize(char *s){
@@ -214,9 +215,9 @@ char strToHex(const char *src){
 	return toReturn;
 }
 
-int convertBinToInt(char *s,int size){
+long int convertBinToInt(char *s,int size){
 	
-	int toReturn = 0;
+	long int toReturn = 0;
 	int currentMul = 1;
 	//Pour tous les bits
 	for(int i = size-1;i>=0;i--){
@@ -245,6 +246,58 @@ void initializeStringArray(char *s[], int sizeArray,int sizeString){
 	}
 }
 
+void formatInstructions(char *instructions[MAX_PROGRAM_LENGTH],int instructionCount,char *labelTable[MAX_PROGRAM_LENGTH]){
+	
+	//Parcourir toutes les instructions
+	for(int i = 0;i<instructionCount;i++){
+
+		//////Parcourir la ligne
+		for(int index = 0;instructions[i][index] != '\0';index++){
+
+			////////Si on rencontre un caractère de label
+			if(instructions[i][index] == ':'){
+				
+				//Copier le nom du label dans la table
+				int tempIndex = 0;
+				while(tempIndex < index){
+					labelTable[i][tempIndex] = instructions[i][tempIndex];
+					tempIndex++;
+				}
+				
+				//Déplacer l'instruction
+				tempIndex = 0;
+				index++;
+				while(instructions[i][index] != '\0'){
+
+					instructions[i][tempIndex] = instructions[i][index];
+					tempIndex++;
+					index++;
+
+				}
+
+				instructions[i][tempIndex] = '\0';
+				index = 0;
+			}
+
+			
+			/////////Si on rencontre un caratère de commentaire
+			if(instructions[i][index] == '#'){
+				
+				////Supprimer le commentaire 
+				if(instructions[i][index-1] == ' '){
+					instructions[i][index-1] = '\0';	
+				}else{
+					instructions[i][index] = '\0';
+				}
+
+			}
+
+
+		}
+
+	}
+}
+
 
 void printMainMemory(MainMemory memory){
 
@@ -258,4 +311,15 @@ void printMainMemory(MainMemory memory){
 
 	printf("\n");
 
+}
+
+void printRegisters(ProcRegister registers){
+
+	//Pour tout les index
+	for(int i = 0;i<(registers.memorySize);i++){
+		printf("%d : %ld       ",i,loadFromRegister(i,registers));
+
+		if((i-2)%3 == 0) printf("\n");
+	}
+	printf("\n\n");
 }
