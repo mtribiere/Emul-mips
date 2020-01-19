@@ -3,38 +3,40 @@
 
 /* Dans ce fichier, nous assumons que les opérandes sont des chaines de 5 bits */
 
-void ADD(long int *oper1, long int *oper2, long int *result);
+void ADD(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void SUB(long int *oper1, long int *oper2, long int *result);
+void ADDI(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void AND(long int *oper1, long int *oper2, long int *result);
+void SUB(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void OR(long int *oper1, long int *oper2, long int *result);
+void AND(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void XOR(long int *oper1, long int *oper2, long int *result);
+void OR(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void MULT(long int *oper1, long int *oper2, long int *resultHigh, long int *resultLow);
+void XOR(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void DIV(long int *oper1, long int *oper2, long int *result);
+void MULT(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void BEQ(long int *oper1, long int *oper2, long int *result);
+void DIV(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void BGTZ(long int *oper1, long int *result);
+void BEQ(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
 
-void BLEZ(long int *oper1, long int *result);
+void BGTZ(int destinationRegister, int operandeRegister1, ProcRegister *registers);
 
-void BNE(long int *oper1, long int *oper2, long int *result);
+void BLEZ(int destinationRegister, int operandeRegister1, ProcRegister *registers);
 
-void ROTR(long int *oper1, int index_rotation, long int *result);
+void BNE(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers)
 
-void SRL(long int *oper1, int index_rotation, long int *result);
+void ROTR(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers)
 
-void SLL(long int *oper1, int index_rotation, long int *result);
+void SRL(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers)
 
-void SLT(long int *oper1, long int *oper2, long int *result);
+void SLL(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers)
 
-void LUI(long int *oper1, long int *result);
+void SLT(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers)
 
-long int *arithmetic(long int *oper1, long int *oper2, char *instruction);
+void LUI(int destinationRegister, int operandeRegister1, ProcRegister *registers)
+
+/*long int *arithmetic(long int *oper1, long int *oper2, char *instruction);*/
 
 #endif
