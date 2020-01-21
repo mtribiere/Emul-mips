@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 
 		printf("\n");
 
-		//////////////////Stocker les instructions
+		//////////////////Stocker les instructions 
 		writeInstructionInFile(argv[2],instructionsHex,instructionCount);
 
 		//////////////////TEST
