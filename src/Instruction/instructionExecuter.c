@@ -7,12 +7,12 @@
 #include "Instruction/instructionExecuter.h"
 
 //Executer les instructions en fonction de leur type
-void executeInstruction(char *instruction,ProcRegister *registers){
+void executeInstruction(char *instruction,ProcRegister *registers,MainMemory *mainMemory,char *labelTable[]){
 
 	//Récuperer le type de l'instruction
 	char instructionType[MAX_INSTRUCTION_LENGTH] = {0};
 	for(int i = 0;instruction[i] != ' ';i++) instructionType[i] = instruction[i];
-
+	printf("Instruction : %s\n",instructionType);
 	//////On verifie toutes les instructions supportées
 	//ADD
 	if(strcmp(instructionType,"ADD") == 0){
@@ -43,12 +43,23 @@ void executeInstruction(char *instruction,ProcRegister *registers){
 		XOR(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers);
 	}
 
+
+	//BEQ
+	else if(strcmp(instructionType,"BEQ") == 0){
+		BEQ(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getLabelInInstruction(instruction),registers,labelTable);
+	}
+
+	//BNE
+	else if(strcmp(instructionType,"BNE") == 0){
+		BNE(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getLabelInInstruction(instruction),registers,labelTable);
+	}
+
 	//Instruction non supportée
 	else{
 		printf("Instruction non supportée\n");
 	}
 	
 	//Passer à l'instruction suivante
-	storeInRegister(loadFromRegister(REGISTER_COUNT-1,*registers)+1,REGISTER_COUNT-1,registers);
+	storeInRegister(loadFromRegister(PC_REGISTER,*registers)+1,PC_REGISTER,registers);
 
 }

@@ -84,3 +84,33 @@ void XOR(int destinationRegister, int operandeRegister1, int operandeRegister2, 
     storeInRegister(result, destinationRegister, registers);
 }
 
+void BEQ(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegister *registers,char *labelTable[]){
+
+	//Comparer les deux registres
+	if(loadFromRegister(operandeRegister1,*registers) == loadFromRegister(operandeRegister2,*registers)){
+		printf("JUMP !!\n");
+		//Trouver la ligne où sauter
+		int toJump = getLineFromLabel(labelToJump,labelTable);
+
+		//Effectuer le saut
+		storeInRegister(toJump-1,PC_REGISTER,registers);
+
+	}
+
+}
+
+
+void BNE(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegister *registers,char *labelTable[]){
+
+	//Comparer les deux registres
+	if(loadFromRegister(operandeRegister1,*registers) != loadFromRegister(operandeRegister2,*registers)){
+		printf("JUMP !!\n");
+		//Trouver la ligne où sauter
+		int toJump = getLineFromLabel(labelToJump,labelTable);
+
+		//Effectuer le saut
+		storeInRegister(toJump-1,PC_REGISTER,registers);
+
+	}
+
+}

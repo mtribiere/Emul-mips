@@ -2,8 +2,8 @@ ADDI $9,$0,5
 ADD $11,$10,$11#Comm
 ADDI $8,$0,0
 SUB $8,$12,$11
-label1:AND $10,$0,3 #Hello
+label1: AND $10,$0,3 #Hello
 ADDI $8,$8,1
 ADD $7,$1,$3
 ADDI $11,$0,0
-BNE $9,$8,4
+BNE $9,$8,label1
