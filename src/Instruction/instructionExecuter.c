@@ -54,6 +54,10 @@ void executeInstruction(char *instruction,ProcRegister *registers,MainMemory *ma
 		BNE(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getLabelInInstruction(instruction),registers,labelTable);
 	}
 
+	else if(strcmp(instructionType,"LW") == 0){
+		LW(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers,*mainMemory);
+	}
+
 	//Instruction non supportée
 	else{
 		printf("Instruction non supportée\n");

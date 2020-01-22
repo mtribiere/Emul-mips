@@ -88,7 +88,6 @@ void BEQ(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegis
 
 	//Comparer les deux registres
 	if(loadFromRegister(operandeRegister1,*registers) == loadFromRegister(operandeRegister2,*registers)){
-		printf("JUMP !!\n");
 		//Trouver la ligne où sauter
 		int toJump = getLineFromLabel(labelToJump,labelTable);
 
@@ -104,7 +103,7 @@ void BNE(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegis
 
 	//Comparer les deux registres
 	if(loadFromRegister(operandeRegister1,*registers) != loadFromRegister(operandeRegister2,*registers)){
-		printf("JUMP !!\n");
+		//printf("JUMP !!\n");
 		//Trouver la ligne où sauter
 		int toJump = getLineFromLabel(labelToJump,labelTable);
 
@@ -112,5 +111,15 @@ void BNE(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegis
 		storeInRegister(toJump-1,PC_REGISTER,registers);
 
 	}
+
+}
+
+void LW(int destinationRegister, int baseRegister,int offset, ProcRegister *registers,MainMemory mainMemory){
+
+	//Charger la valeur
+	int toStore = loadFromMemory(loadFromRegister(baseRegister,*registers),mainMemory);
+
+	//Stocker la valeur
+	storeInRegister(toStore,destinationRegister,registers);
 
 }

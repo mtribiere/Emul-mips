@@ -28,7 +28,7 @@ void storeInRegister(long int toStore, int index, ProcRegister *registers);
 
 
 long int loadFromMemory(int index, MainMemory memory);
-void storeInMemory(int toStore, int index, MainMemory *memory);
+void storeInMemory(long int toStore, int index, MainMemory *memory);
 
 void freeRegisters(ProcRegister *registers);
 void freeMainMemory(MainMemory *memory);

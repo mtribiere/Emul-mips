@@ -19,6 +19,6 @@ void BEQ(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegis
 
 void BNE(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegister *registers,char *labelTable[]);
 
-/*long int *arithmetic(long int *oper1, long int *oper2, char *instruction);*/
+void LW(int destinationRegister, int baseRegister,int offset, ProcRegister *registers,MainMemory mainMemory);
 
 #endif

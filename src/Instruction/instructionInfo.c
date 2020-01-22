@@ -20,7 +20,8 @@ int getInstructionType(const char *s){
 		"ADD",
 		"SUB",
 		"AND",	
-		"OR"
+		"OR",
+		"LW"
 	};
 
 	//Declaration du tableau des types I

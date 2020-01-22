@@ -30,27 +30,47 @@
 
 int main(int argc, char *argv[])
 {
+	///////////////////Choisir le mode d'execution
 	/*Mode : 
 	 * 	0 : Fonctionnement normal
 	 * 	1 : Mode pas à pas
 	 * 	2 : Mode interactif
 	 * **/
-	int mode = 0;
 
-	if(argc == 1)
-		mode = 2;
-
-	/////////////////////Recuperer les instructions
 	//Si pas d'arguments fourni
 	if(argc < 3 && argc != 1){
 		printf("Usage : ./emul-mips Fichier_source Fichier_destination\n");
-		printf("Utilisez -pas pour le mode pas à pas\n");
+		printf("Utilisez --pas A LA FIN pour le mode pas à pas\n");
 		printf("Ou ./emul-mips pour le mode interactif\n");
 		exit(1);
 	}
 
+	int mode = 0;
+
+	//Si on doit entrer en mode pas à pas
+	if(argc == 1)
+		mode = 2;
+
+	//Si on doit entrer en mode pas à pas
+	if(argc == 4){
+		if(strcmp("--pas",argv[3]) == 0){
+			mode = 1;
+		}else{
+			printf("Unrecognized arguement : %s\nExiting\n",argv[3]);
+			exit(1);
+		}
+	}
+
+	//DEBUG
+	for(int i = 0;i<argc;i++)
+		printf("Arg %d : %s\n",i,argv[i]);
+	
+
+
 	//Si on est en mode de fonctionnement normal ou pas à pas
 	if(mode == 0 || mode == 1){
+
+		/////////////////////Recuperer les instructions
 		//Creer le tableau de toutes les instructions
 		char *instructions[MAX_PROGRAM_LENGTH] = {0};
 		initializeStringArray(instructions,MAX_PROGRAM_LENGTH,MAX_INSTRUCTION_LENGTH);
@@ -111,18 +131,51 @@ int main(int argc, char *argv[])
 		//Initialiser le PC
 		storeInRegister(0,PC_REGISTER,&registers);
 
+		//DEBUG
+		
+		storeInMemory(0x1,8,&mainMemory);
+		storeInMemory(0x2,12,&mainMemory);
+		storeInMemory(0x3,16,&mainMemory);
+		storeInMemory(0x4,20,&mainMemory);
+		storeInRegister(8,4,&registers);
+		
 		//Tant qu'on a pas atteint la fin du programme
 		while(loadFromRegister(PC_REGISTER,registers) < instructionCount){
 
+			//Si on est en mode pas a pas
+			if(mode == 1){
+
+				//Effacer l'écran 
+				for(int i = 0;i<100;i++) printf("\n");
+
+
+				//Afficher les instructions
+				printProgramForStepMode(instructions,instructionCount,loadFromRegister(PC_REGISTER,registers));
+			}
+			
 			//Executer l'instruction
 			executeInstruction(instructions[loadFromRegister(PC_REGISTER,registers)],&registers,&mainMemory,labelTable);
 
 			//Afficher l'état des registres
 			printRegisters(registers);
+
+			//Afficher l'état de la mémoire
+			printMainMemory(mainMemory);
+
+			//Si on est en mode pas a pas
+			if(mode == 1){
+
+				//Attendre l'appui sur entree
+				printf("\n === Press enter to continue ===\n");
+				while(getchar() != '\n');
+
+			}else{ //Si on est en mode normal
+				printf("\n\n========================== ");
+			}
 		}
 
 
-		printf("\n");
+		printf("=== Fin de l'execution === \n");
 
 		//////////////////Stocker les instructions 
 		writeInstructionInFile(argv[2],instructionsHex,instructionCount);
@@ -154,7 +207,7 @@ int main(int argc, char *argv[])
 	}
 
 	if(mode == 2){
-		char currentInstruction[MAX_INSTRUCTION_LENGTH] = {0};
+		//char currentInstruction[MAX_INSTRUCTION_LENGTH] = {0};
 		printf("Aucun fichier fourni, passage en mode interactif : \n");
 		printf(">>>\n");
 	}

@@ -342,6 +342,34 @@ void formatInstructions(char *instructions[MAX_PROGRAM_LENGTH],int instructionCo
 	}
 }
 
+void printProgramForStepMode(char *instructions[MAX_PROGRAM_LENGTH] ,int instructionCount ,int currentLine){
+
+	//Pour toutes les instructions
+	for(int i = 0;i<instructionCount;i++){
+
+		//Si il s'agit de la ligne active
+		if(i == currentLine){
+
+			//Afficher le padding
+			for(int j = 0;j<DISPLAY_PADDING-4;j++) printf(" ");
+
+			//Afficher la flèche 
+			printf("==> ");
+
+		}else{ //Sinon
+				//Afficher le padding
+				for(int j = 0;j<DISPLAY_PADDING;j++) printf(" ");
+		}
+
+		//Afficher la ligne
+		printf("%s\n",instructions[i]);
+
+	}
+
+	printf("\n");
+
+}
+
 
 void printMainMemory(MainMemory memory){
 
