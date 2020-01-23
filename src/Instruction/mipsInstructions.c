@@ -123,3 +123,16 @@ void LW(int destinationRegister, int baseRegister,int offset, ProcRegister *regi
 	storeInRegister(toStore,destinationRegister,registers);
 
 }
+
+void ST(int baseRegister,int offset ,int sourceRegister ,ProcRegister registers,MainMemory *mainMemory){
+
+	//Recuperer la donnée
+	long int toStore = loadFromRegister(sourceRegister,registers);
+
+	//Recuperer l'adresse de destination
+	long int destinationAdress = loadFromRegister(baseRegister,registers);
+
+	//Stocker la donnée
+	storeInMemory(toStore,(destinationAdress+offset),mainMemory);
+
+}

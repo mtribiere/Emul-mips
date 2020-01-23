@@ -378,7 +378,14 @@ void printMainMemory(MainMemory memory){
 		if(i%8 == 0){
 			printf("\n %d   : ",i);
 		}
-		printf(" %x ",(memory.mem)[i]);
+		
+		//Conditions d'affichages
+		if((memory.mem)[i] == 0)
+			printf(" 00 ");
+		else if((memory.mem)[i] < 16)
+			printf(" 0%x ",(memory.mem)[i]);
+		else
+			printf(" %x ",(memory.mem)[i]);
 	}
 
 	printf("\n");

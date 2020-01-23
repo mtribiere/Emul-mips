@@ -54,7 +54,7 @@ long int loadFromMemory(int index, MainMemory memory){
 	return toReturn;
 }
 
-void storeInMemory(long int toStore, int index, MainMemory *memory){
+void storeInMemory(long int toStore, long int index, MainMemory *memory){
 
 	//Convertir en binaire le chiffre
 	char binary[32] = {0};
@@ -78,6 +78,7 @@ void storeInMemory(long int toStore, int index, MainMemory *memory){
 
 		//Passer à la partie suivante
 		currentPart++;
+		
 	}
 
 	

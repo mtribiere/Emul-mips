@@ -21,4 +21,6 @@ void BNE(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegis
 
 void LW(int destinationRegister, int baseRegister,int offset, ProcRegister *registers,MainMemory mainMemory);
 
+void ST(int baseRegister,int offset ,int sourceRegister ,ProcRegister registers,MainMemory *mainMemory);
+
 #endif

@@ -156,6 +156,9 @@ int main(int argc, char *argv[])
 			//Executer l'instruction
 			executeInstruction(instructions[loadFromRegister(PC_REGISTER,registers)],&registers,&mainMemory,labelTable);
 
+			//Passer à l'instruction suivante
+			storeInRegister(loadFromRegister(PC_REGISTER,registers)+1,PC_REGISTER,&registers);
+
 			//Afficher l'état des registres
 			printRegisters(registers);
 
@@ -206,10 +209,61 @@ int main(int argc, char *argv[])
 
 	}
 
+	//Si on est en mode interactif
 	if(mode == 2){
-		//char currentInstruction[MAX_INSTRUCTION_LENGTH] = {0};
 		printf("Aucun fichier fourni, passage en mode interactif : \n");
-		printf(">>>\n");
+
+		//////////////////////Initialisation du mode interactif
+		//Creer les registres
+		ProcRegister registers;
+		initializeRegister(REGISTER_COUNT,&registers);
+
+		//Creer la mémoire principale
+		MainMemory mainMemory;
+		initializeMemory(MAIN_MEMORY_SIZE,&mainMemory);
+
+		int needExit = 0;
+		char currentInstruction[MAX_INSTRUCTION_LENGTH] = {0};
+
+		/////////////////////Lancer la console
+		//Tant que qu'on ne doit pas quitter
+		while(!needExit){
+
+			//Afficher le padding
+			printf("\n\n\n\n\n\n=============\n");
+
+			//Afficher les registres
+			printRegisters(registers);
+			
+			//Afficher la memoire
+			printMainMemory(mainMemory);
+			
+			//Entrer l'instruction
+			printf(">>>");
+			fgets(currentInstruction,MAX_INSTRUCTION_LENGTH,stdin);
+
+			//Formater l'instruction
+			int i = 0;
+			while(currentInstruction[i] != '\n')
+				i++;
+			currentInstruction[i] = '\0';
+
+			//Si l'instruction est EXIT
+			if(strcmp(currentInstruction,"EXIT") == 0){
+				needExit = 1;
+			}else{ // Si c'est une instuction classique
+
+					//Executer la commande
+					executeInstruction(currentInstruction,&registers,&mainMemory,NULL);
+			}		
+		}
+
+		printf("\n=== Fin de l'éxecution ===\n");
+		/////////////////Liberer la mémoire
+		freeRegisters(&registers);
+		freeMainMemory(&mainMemory);
+
+
 	}
 
 	return 0;

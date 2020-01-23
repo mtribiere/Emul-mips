@@ -54,16 +54,19 @@ void executeInstruction(char *instruction,ProcRegister *registers,MainMemory *ma
 		BNE(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getLabelInInstruction(instruction),registers,labelTable);
 	}
 
+	//LW
 	else if(strcmp(instructionType,"LW") == 0){
 		LW(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers,*mainMemory);
+	}
+
+	//SW
+	else if(strcmp(instructionType,"SW") == 0){
+		ST(getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),getOperandeWithPosition(instruction,1),*registers,mainMemory);
 	}
 
 	//Instruction non supportée
 	else{
 		printf("Instruction non supportée\n");
 	}
-	
-	//Passer à l'instruction suivante
-	storeInRegister(loadFromRegister(PC_REGISTER,*registers)+1,PC_REGISTER,registers);
 
 }
