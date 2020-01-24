@@ -1,6 +1,8 @@
 # Emul-mips
 Le projet d'émulateur MIPS de CS351
 
+/!\ IMPORTANT : Les instructions contenant des labels, ainsi que les chargements dans la mémoire principale n'ont, par manque de temps, pas pu être testées pleinement dans le mode de convertion. Elles ne fourniront de ce fait qu'une simulation de leur comportement dans une execution.
+
 # Instructions supportées : 
 ```
 ADD
