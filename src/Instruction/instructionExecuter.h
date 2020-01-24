@@ -3,6 +3,6 @@
 
 #include "memoryManager.h"
 
-void executeInstruction(char *instruction,ProcRegister *registers);
+void executeInstruction(char *instruction,ProcRegister *registers,MainMemory *mainMemory,char *labelTable[]);
 
 #endif

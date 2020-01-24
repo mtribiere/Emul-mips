@@ -2,7 +2,9 @@
 #define MEMORY_MANAGER_H
 
 //Le dernier registre est le PC
-#define REGISTER_COUNT 15+1
+#define SPECIAL_REGISTERS_COUNT 3
+#define REGISTER_COUNT 15+SPECIAL_REGISTERS_COUNT
+#define PC_REGISTER REGISTER_COUNT-1
 #define MAIN_MEMORY_SIZE 4*40
 
 typedef struct procRegister
@@ -26,7 +28,7 @@ void storeInRegister(long int toStore, int index, ProcRegister *registers);
 
 
 long int loadFromMemory(int index, MainMemory memory);
-void storeInMemory(int toStore, int index, MainMemory *memory);
+void storeInMemory(long int toStore, long int index, MainMemory *memory);
 
 void freeRegisters(ProcRegister *registers);
 void freeMainMemory(MainMemory *memory);

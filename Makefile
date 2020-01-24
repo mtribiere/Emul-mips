@@ -36,5 +36,3 @@ check: $(EXE)
 	echo '\n' | exemple/exemples2019/emul-mips in3.txt 
 	./$(EXE) exemple/exemples2019/tests/in3.txt hexified/in3-2.txt
 	diff -i hexified/in3.txt hexified/in3-2.txt
-	
-

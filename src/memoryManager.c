@@ -54,7 +54,7 @@ long int loadFromMemory(int index, MainMemory memory){
 	return toReturn;
 }
 
-void storeInMemory(int toStore, int index, MainMemory *memory){
+void storeInMemory(long int toStore, long int index, MainMemory *memory){
 
 	//Convertir en binaire le chiffre
 	char binary[32] = {0};
@@ -63,6 +63,9 @@ void storeInMemory(int toStore, int index, MainMemory *memory){
 
 	//Pour chaque index de bébut d'octet
 	for(int i = 0; i<32 ;i+=8){
+
+		//Verifier que l'emplacement existe
+		checkMemoryAddress(index+currentPart);
 
 		//Copier dans un tableau temporaire
 		char temp[8] = {0};
@@ -73,11 +76,9 @@ void storeInMemory(int toStore, int index, MainMemory *memory){
 		//Stocker
 		(memory->mem)[index+currentPart] = convertBinToInt(temp,8);
 
-		//Verifier que l'emplacement existe
-		checkMemoryAddress(index+currentPart);
-
 		//Passer à la partie suivante
 		currentPart++;
+		
 	}
 
 	

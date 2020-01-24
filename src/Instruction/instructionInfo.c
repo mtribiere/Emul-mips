@@ -15,12 +15,14 @@ int getInstructionType(const char *s){
 		index++;
 	}
 
-	//Declaration du tableau des types I
+	//Declaration du tableau des types R
 	char *typeRInstruction[]={
 		"ADD",
 		"SUB",
 		"AND",	
-		"OR"
+		"OR",
+		"XOR",
+		"SLT"
 	};
 
 	//Declaration du tableau des types I
@@ -29,7 +31,13 @@ int getInstructionType(const char *s){
 		"BEQ",
 		"BNE",
 		"BGTZ",
-		"BLEZ"
+		"BLEZ",
+		"LW",
+		"SW",
+		"SRL",
+		"SLL",
+		"ROTR",
+		"LUI"
 	};
 
 	//Declaration du tableau des types J

@@ -1,0 +1,12 @@
+SUB $8,$8,$8 #Initialisation
+ADDI $8,$8,4
+SUB $9,$9,$9
+SUB $2,$2,$2
+SUB $3,$3,$3
+ADDI $3,$3,32
+label1: LW $1,$4,0 #Label de boucle
+ADD $2,$2,$1
+ADDI $4,$4,4
+ADDI $9,$9,1
+BNE $9,$8,label1
+SW $2,$3,0

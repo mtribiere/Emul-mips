@@ -10,25 +10,25 @@
 void instructionToHex(char *s,char *dest)
 {
 
-	///////////////Ignorer les commentaires
+	// ///////////////Ignorer les commentaires
 	
-	int index = 0;
-	//Parcourir l'instruction
-	while(s[index] != '\0'){
+	// int index = 0;
+	// //Parcourir l'instruction
+	// while(s[index] != '\0'){
 
-		//Si on trouve un symbole de commentaire
-		if(s[index] == '#'){
+	// 	//Si on trouve un symbole de commentaire
+	// 	if(s[index] == '#'){
 
-			//Trouver l'endroit où inserer la sentinelle
-			if(s[index-1] == ' ') 
-				s[index-1] = '\0';
-			else
-				s[index] = '\0';		
+	// 		//Trouver l'endroit où inserer la sentinelle
+	// 		if(s[index-1] == ' ') 
+	// 			s[index-1] = '\0';
+	// 		else
+	// 			s[index] = '\0';		
 					
-		}
+	// 	}
 
-		index++; 
-	}
+	// 	index++; 
+	// }
 
 	///////////////Obtenir le binaire de l'instruction
 	char instructionBinary[33]={0};
