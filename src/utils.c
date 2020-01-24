@@ -19,7 +19,7 @@ int getOperationSize(char *s){
 }
 
 //Fonction qui converti un nombre en binaire
-void convertToBinarySized(int toConvert, char *dest,int size){
+void convertToBinarySized(long int toConvert, char *dest,int size){
 
 	//Initialiser le tableau de retour
     int converted[size]; 
@@ -400,5 +400,66 @@ void printRegisters(ProcRegister registers){
 
 		if((i-2)%3 == 0) printf("\n");
 	}
+	printf("\n\n");
+}
+
+/* Fonction puissance, calcule et retourne un long int égal à x à la puissance y pour y > 0 */
+long int myPow(int x, int y)
+{
+    long int result=1;
+
+    while(y > 0)
+    {
+        result*=x;
+        y--;
+    }
+
+    return result;
+}
+
+
+/* Prend en paramètre une chaine de 0 ou de 1 de longueur 32 bits */
+/* Retourne l'entier correspondant à ce code binaire */
+long int convertBinToLongInt(int *operande)
+{
+	int index;
+	int currentPow2=1;
+	
+	long int result=operande[31];
+
+	for(index=30; index >= 0; index--)
+	{
+		result += myPow(2,currentPow2)*operande[index];
+		currentPow2++;
+	}
+
+	return result;
+}
+
+
+
+/* Prend en paramètre un entier décimal */
+/* Retourne une chaine binaire de longueur 32 bits correspondant à la valeur de cet entier */
+void convertLongIntToBin(long int operande, int *toReturn)
+{
+	int index;
+
+	printf("\n Chaine binaire retournée : \n");
+
+	for (index=0; index < 32; index++)
+	{
+		if(operande >= myPow(2,31-index))
+		{
+			toReturn[index]=1;
+			operande-=myPow(2,31-index);
+			/*
+			printf("\n Operande devient %li\n",operande);
+			*/
+		}
+		else toReturn[index]=0;
+		
+		printf("%d",toReturn[index]);
+	}
+
 	printf("\n\n");
 }

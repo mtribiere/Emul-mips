@@ -21,6 +21,8 @@ int getInstructionType(const char *s){
 		"SUB",
 		"AND",	
 		"OR",
+		"XOR",
+		"SLT"
 	};
 
 	//Declaration du tableau des types I
@@ -31,7 +33,11 @@ int getInstructionType(const char *s){
 		"BGTZ",
 		"BLEZ",
 		"LW",
-		"SW"
+		"SW",
+		"SRL",
+		"SLL",
+		"ROTR",
+		"LUI"
 	};
 
 	//Declaration du tableau des types J

@@ -61,7 +61,37 @@ void executeInstruction(char *instruction,ProcRegister *registers,MainMemory *ma
 
 	//SW
 	else if(strcmp(instructionType,"SW") == 0){
-		ST(getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),getOperandeWithPosition(instruction,1),*registers,mainMemory);
+		SW(getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),getOperandeWithPosition(instruction,1),*registers,mainMemory);
+	}
+
+	//SRL
+	else if(strcmp(instructionType,"SRL") == 0){
+		SRL(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers);
+	}
+
+	//SLL
+	else if(strcmp(instructionType,"SLL") == 0){
+		SLL(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers);
+	}
+
+	//SLT
+	else if(strcmp(instructionType,"SLT") == 0){
+		SLT(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers);
+	}
+
+	//ROTR
+	else if(strcmp(instructionType,"ROTR") == 0){
+		ROTR(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),getOperandeWithPosition(instruction,3),registers);
+	}
+
+	//LUI
+	else if(strcmp(instructionType,"LUI") == 0){
+		LUI(getOperandeWithPosition(instruction,1),getOperandeWithPosition(instruction,2),registers);
+	}
+
+	//RIP
+	else if(strcmp(instructionType,"RIP") == 0){
+		RIP(getOperandeWithPosition(instruction,0),getOperandeWithPosition(instruction,0),getOperandeWithPosition(instruction,0),*registers,*mainMemory);
 	}
 
 	//Instruction non supportée

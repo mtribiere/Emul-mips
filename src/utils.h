@@ -6,7 +6,7 @@
 #define DISPLAY_PADDING 8
 
 int getOperationSize(char *s);
-void convertToBinarySized(int toConvert, char *dest,int size);
+void convertToBinarySized(long int toConvert, char *dest,int size);
 int getOperandeCount(char *s);
 int getOperandeWithPosition(char *s,int index);
 char* getLabelInInstruction(char *s);
@@ -24,5 +24,9 @@ void formatInstructions(char *instructions[MAX_PROGRAM_LENGTH],int instructionCo
 void printProgramForStepMode(char *instructions[MAX_PROGRAM_LENGTH],int instructionCount ,int currentLine);
 void printMainMemory(MainMemory memory);
 void printRegisters(ProcRegister registers);
+
+long int myPow(int x, int y);
+long int convertBinToLongInt(int *operande);
+void convertLongIntToBin(long int operande, int *toReturn);
 
 #endif

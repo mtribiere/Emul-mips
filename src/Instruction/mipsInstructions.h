@@ -21,6 +21,18 @@ void BNE(int operandeRegister1,int operandeRegister2,char *labelToJump,ProcRegis
 
 void LW(int destinationRegister, int baseRegister,int offset, ProcRegister *registers,MainMemory mainMemory);
 
-void ST(int baseRegister,int offset ,int sourceRegister ,ProcRegister registers,MainMemory *mainMemory);
+void SW(int baseRegister,int offset ,int sourceRegister ,ProcRegister registers,MainMemory *mainMemory);
+
+void RIP(int baseRegister, int offset, int sourceRegister, ProcRegister registers,MainMemory mainMemory);
+
+void ROTR(int destinationRegister, int operandeRegister1, int operande2, ProcRegister *registers);
+
+void SRL(int destinationRegister, int operandeRegister1, int operande2, ProcRegister *registers);
+
+void SLL(int destinationRegister, int operandeRegister1, int operande2, ProcRegister *registers);
+
+void SLT(int destinationRegister, int operandeRegister1, int operandeRegister2, ProcRegister *registers);
+
+void LUI(int destinationRegister, int operandeRegister1, ProcRegister *registers);
 
 #endif
