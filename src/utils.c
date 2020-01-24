@@ -457,9 +457,6 @@ void convertLongIntToBin(long int operande, int *toReturn)
 			*/
 		}
 		else toReturn[index]=0;
-		
-		printf("%d",toReturn[index]);
 	}
 
-	printf("\n\n");
 }
