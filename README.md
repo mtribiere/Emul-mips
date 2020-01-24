@@ -15,6 +15,12 @@ BEQ
 BNE
 LW
 SW
+RIP
+ROTR
+SRL
+SLL
+SLT
+LUI
 ```
 
 # Compilation et utilisation
