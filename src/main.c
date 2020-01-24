@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 		//Tant qu'on a pas atteint la fin du programme
 		while(loadFromRegister(PC_REGISTER,registers) < instructionCount){
 
-			//Si on est en mode pas a pas
+			//Si on est en mode pas à pas
 			if(mode == 1){
 
 				//Effacer l'écran 
