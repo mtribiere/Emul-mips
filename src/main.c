@@ -132,13 +132,13 @@ int main(int argc, char *argv[])
 		storeInRegister(0,PC_REGISTER,&registers);
 
 		//DEBUG
-		
+		/*	
 		storeInMemory(0x1,8,&mainMemory);
 		storeInMemory(0x2,12,&mainMemory);
 		storeInMemory(0x3,16,&mainMemory);
 		storeInMemory(0x4,20,&mainMemory);
 		storeInRegister(8,4,&registers);
-		
+		*/
 		//Tant qu'on a pas atteint la fin du programme
 		while(loadFromRegister(PC_REGISTER,registers) < instructionCount){
 
@@ -160,9 +160,11 @@ int main(int argc, char *argv[])
 			storeInRegister(loadFromRegister(PC_REGISTER,registers)+1,PC_REGISTER,&registers);
 
 			//Afficher l'état des registres
+			printf("=== Registres ===\n");
 			printRegisters(registers);
 
 			//Afficher l'état de la mémoire
+			printf("=== Mémoire principale ===\n");
 			printMainMemory(mainMemory);
 
 			//Si on est en mode pas a pas
