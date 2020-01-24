@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 			storeInRegister(loadFromRegister(PC_REGISTER,registers)+1,PC_REGISTER,&registers);
 
 			//Afficher l'état des registres
-			printf("=== Registres ===\n");
+			printf("\n=== Registres ===\n");
 			printRegisters(registers);
 
 			//Afficher l'état de la mémoire
