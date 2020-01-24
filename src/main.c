@@ -30,6 +30,9 @@
 
 int main(int argc, char *argv[])
 {
+	////////////////////Afficher la bannière
+	printf("============== Emul-mips : DAUTREY Marin RIBIERE Matthieu ============\n");
+
 	///////////////////Choisir le mode d'execution
 	/*Mode : 
 	 * 	0 : Fonctionnement normal
@@ -62,9 +65,10 @@ int main(int argc, char *argv[])
 	}
 
 	//DEBUG
+	/*
 	for(int i = 0;i<argc;i++)
 		printf("Arg %d : %s\n",i,argv[i]);
-	
+	*/
 
 
 	//Si on est en mode de fonctionnement normal ou pas à pas
